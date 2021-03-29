@@ -12,7 +12,7 @@ navigation_header:
 - title: Home
   url: /
 - title: Professional Projects
-  url: /pro/index.md
+  url: /pro/
 - title: Personal Projects
   url: /perso/index.md
 - title: School Projects
