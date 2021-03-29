@@ -12,11 +12,11 @@ navigation_header:
 - title: Home
   url: /
 - title: Professional Projects
-  url: /pro/
+  url: /pro/index.md
 - title: Personal Projects
-  url: /perso/
+  url: /perso/index.md
 - title: School Projects
-  url: /school/
+  url: /school/index.md
   
 navigation_footer:
 - title: Lilyel
