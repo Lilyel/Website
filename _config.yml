@@ -11,3 +11,7 @@ logo: "/assets/logos/logo.svg" # Site logo, also used in jekyll-seo-tag
 navigation_header:
 - title: Home
   url: /
+  
+navigation_footer:
+- title: Rémi Maigné
+  url: https://lilyel.github.io/Website/
