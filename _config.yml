@@ -14,9 +14,9 @@ navigation_header:
 - title: Professional Projects
   url: /pro/
 - title: Personal Projects
-  url: /perso/index.md
+  url: /perso/
 - title: School Projects
-  url: /school/index.md
+  url: /school/
   
 navigation_footer:
 - title: Lilyel
