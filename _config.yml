@@ -6,3 +6,18 @@ encoding: utf-8 # Make sure the encoding is right
 lang: en-GB # Set the site language
 title: "Alembic" # Site name or title, also used in jekyll-seo-tag
 logo: "/assets/logos/logo.svg" # Site logo, also used in jekyll-seo-tag
+
+# Site navigation
+navigation_header:
+- title: Home
+  url: /
+- title: Elements
+  url: /elements/
+- title: Blog
+  url: /blog/
+- title: Categories
+  url: /categories/
+- title: Search
+  url: /search/
+- title: Fork Alembic
+  url: https://github.com/daviddarnes/alembic
