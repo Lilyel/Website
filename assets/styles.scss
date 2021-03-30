@@ -65,6 +65,7 @@ body {
   min-height: 100px !important;
   max-width: 92%;
   .typeset {
-    color: $featureColour;
+    color: $featureColour !important;
+    font-size: 200% !important;
   }
 }
