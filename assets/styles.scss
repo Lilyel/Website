@@ -9,7 +9,9 @@ $backgroundColour: linear-gradient(to bottom, #3399ff 20%, #ff99cc 100%) !defaul
 $codeBackgroundColour: #fafafa !default;
 $featureBackgroundColour: #f9fafa !default;
 $accentColour: #05bf85 !default;
-$backgroundAttachment: fixed !default;
+body {
+  background-attachment: fixed;
+}
 
 // Text colours
 $headingColour: #242e2b !default;
