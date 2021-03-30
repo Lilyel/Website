@@ -14,7 +14,7 @@ $accentColour: #05bf85 !default;
 $headingColour: #242e2b !default;
 $bodyColour: #384743 !default;
 $linkColour: #da82ff !default;
-$hoverColour: #ae58d3 !default;
+$hoverColour: #8b32b1 !default;
 $focusColour: #fa407a !default;
 $captionColour: #a8adac !default;
 $white: #ffffff !default;
@@ -54,7 +54,7 @@ body {
   background-attachment: fixed;
 }
 
-.header {
+.header.container {
   background-color: #e5e5e5;
 }
 
