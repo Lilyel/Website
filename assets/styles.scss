@@ -54,9 +54,11 @@ body {
   background-attachment: fixed;
 }
 
-.header .container {
-  background-color: #e5e5e5;
-  background-size: cover;
+.header {
+  .container {
+    background-color: #e5e5e5;
+    background-size: cover;
+  }
 }
 
 .content {
@@ -66,11 +68,13 @@ body {
   padding: 25px;
 }
 
-.feature .container {
-  min-height: 100px !important;
-  max-width: 92%;
-  .p {
-    color: $featureColour !important;
-    font-size: 200% !important;
+.feature {
+  .container {
+    min-height: 100px !important;
+    max-width: 92%;
+    .p {
+      color: $featureColour !important;
+      font-size: 200% !important;
+    }
   }
 }
