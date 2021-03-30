@@ -56,11 +56,7 @@ body {
 }
 
 
-.feature {
-  padding-bottom: .4rem;
-  margin-bottom: 1.6rem;
-  .container {
-    min-height: 100px;
-    max-width: 92%;
-  }
+.feature.container {
+  min-height: 100px;
+  max-width: 92%;
 }
