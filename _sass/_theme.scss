@@ -1,6 +1,7 @@
 // Structural elements
 body {
   background: $backgroundColour;
+  background-attachement: fixed;
   color: $bodyColour;
   height: 100%;
   display: flex;
