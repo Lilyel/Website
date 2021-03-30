@@ -42,14 +42,8 @@ $monospacetype: (
 ) !default;
 
 
-@charset "utf-8";
+@import "alembic";
 
-// Import frameworks & theme styles
-@import
-  "normalize",
-  "settings",
-  "sassline-base",
-  "syntax",
-  "flex",
-  "theme"
-;
+body {
+  background-attachement: fixed;
+}
