@@ -18,6 +18,7 @@ $hoverColour: #008000 !default;
 $focusColour: #fa407a !default;
 $captionColour: #a8adac !default;
 $white: #ffffff !default;
+$featureColour: #ffffff !default;
 
 // Typography
 $bodytype: (
@@ -63,10 +64,5 @@ body {
 .feature .container {
   min-height: 100px !important;
   max-width: 92%;
-  font-family: '"Merriweather", serif';
-  regular: 400;
-  bold: 700;
-  cap-height: 0.75;
-  text-align: justify;
-  text-justify: inter-word
+  color: $featureColour;
 }
