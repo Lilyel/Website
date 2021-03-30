@@ -10,16 +10,6 @@ $codeBackgroundColour: #fafafa !default;
 $featureBackgroundColour: #f9fafa !default;
 $accentColour: #05bf85 !default;
 
-body {
-  background: $backgroundColour;
-  color: $bodyColour;
-  height: 100%;
-  display: flex;
-  @include flex-direction(column);
-  overflow-x: hidden;
-  background-attachment: fixed;
-}
-
 // Text colours
 $headingColour: #242e2b !default;
 $bodyColour: #384743 !default;
@@ -50,3 +40,14 @@ $monospacetype: (
   regular: 400,
   cap-height: 0.68
 ) !default;
+
+
+body {
+  background: $backgroundColour;
+  color: $bodyColour;
+  height: 100%;
+  display: flex;
+  @include flex-direction(column);
+  overflow-x: hidden;
+  background-attachment: fixed;
+}
