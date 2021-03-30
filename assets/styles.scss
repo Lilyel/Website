@@ -46,4 +46,13 @@ body {
   background-attachement: fixed !important;
 }
 
-@import "alembic";
+@charset "utf-8";
+
+// Import frameworks & theme styles
+@import
+  "normalize",
+  "settings",
+  "sassline-base",
+  "syntax",
+  "flex"
+;
