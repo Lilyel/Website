@@ -41,5 +41,8 @@ $monospacetype: (
   cap-height: 0.68
 ) !default;
 
+body {
+  background-attachment: fixed;
+}
 
 @import "alembic";
