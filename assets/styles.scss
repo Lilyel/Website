@@ -48,13 +48,11 @@ body {
   background-attachment: fixed;
 }
 
-.article {
-  .content {
-    width: 90%;
-    background-color: #ffffff;
-    border-radius: 7px;
-    padding: 25px;
-  }
+.article.content {
+  width: 90%;
+  background-color: #ffffff;
+  border-radius: 7px;
+  padding: 25px;
 }
 
 .feature {
