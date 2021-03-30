@@ -25,7 +25,9 @@ $bodytype: (
   regular: 400,
   bold: 700,
   italic: italic,
-  cap-height: 0.75
+  cap-height: 0.75,
+  text-align: justify,
+  text-justify: inter-word
 ) !default;
 
 $headingtype: (
@@ -38,7 +40,9 @@ $headingtype: (
 $monospacetype: (
   font-family: "Menlo, monospace",
   regular: 400,
-  cap-height: 0.68
+  cap-height: 0.68,
+  text-align: justify,
+  text-justify: inter-word
 ) !default;
 
 
@@ -46,8 +50,6 @@ $monospacetype: (
 
 body {
   background-attachment: fixed;
-  text-align: justify;
-  text-justify: inter-word;
 }
 
 .content {
