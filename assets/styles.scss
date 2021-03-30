@@ -58,8 +58,10 @@ body {
 }
 
 .feature {
+  padding-bottom: 0px;
+  margin-bottom: 0px;
   .container {
-    min-height: 100px;
+    min-height: 200px;
     max-width: 92%;
   }
 }
