@@ -56,14 +56,14 @@ body {
 
 .header {
   .container {
-    background-color: #e5e5e5;
+    background-color: $white;
     background-size: contain;
   }
 }
 
 .content {
   width: 95%;
-  background-color: #e5e5e5;
+  background-color: $white;
   border-radius: 7px;
   padding: 25px;
 }
