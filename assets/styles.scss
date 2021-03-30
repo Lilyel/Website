@@ -57,7 +57,9 @@ body {
 .header {
   .container {
     background-color: $white;
-    background-size: contain;
+    padding-left: 5%;
+    padding-bottom: 5%;
+    border-radius: 7px;
   }
 }
 
@@ -71,6 +73,8 @@ body {
 .feature {
   padding-bottom: 0rem !important;
   margin-bottom: 0rem !important;
+  padding-left: none;
+  padding-bottom: none;
   .container {
     min-height: 200px !important;
     max-width: 98%;
