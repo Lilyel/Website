@@ -41,13 +41,4 @@ $monospacetype: (
   cap-height: 0.68
 ) !default;
 
-
-body {
-  background: $backgroundColour;
-  color: $bodyColour;
-  height: 100%;
-  display: flex;
-  @include flex-direction(column);
-  overflow-x: hidden;
-  background-attachment: fixed;
-}
+@import "alembic";
