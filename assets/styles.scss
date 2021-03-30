@@ -9,8 +9,15 @@ $backgroundColour: linear-gradient(to bottom, #3399ff 20%, #ff99cc 100%) !defaul
 $codeBackgroundColour: #fafafa !default;
 $featureBackgroundColour: #f9fafa !default;
 $accentColour: #05bf85 !default;
-.body {
-  background-attachment: fixed !default;
+
+body {
+  background: $backgroundColour;
+  color: $bodyColour;
+  height: 100%;
+  display: flex;
+  @include flex-direction(column);
+  overflow-x: hidden;
+  background-attachment: fixed;
 }
 
 // Text colours
@@ -43,4 +50,3 @@ $monospacetype: (
   regular: 400,
   cap-height: 0.68
 ) !default;
-@import "alembic";
