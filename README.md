@@ -28,7 +28,7 @@ Syntax highlighted code block
 
 For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 
-\[IterationRange = \frac{TextureSize}{2^{Iteration+ 1}}\]
+$$IterationRange = \frac{TextureSize}{2^{Iteration+ 1}}$$
 
 #0366d6 Lala
 
