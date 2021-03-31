@@ -76,13 +76,11 @@ body {
   margin-bottom: 0rem !important;
   padding-left: none;
   padding-right: none;
+  color: $featureColour !important;
+  font-size: 200% !important;
   .container {
     min-height: 200px !important;
     max-width: 98%;
     background-color: transparent;
-    .p {
-      color: $featureColour !important;
-      font-size: 200% !important;
-    }
   }
 }
