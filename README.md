@@ -30,7 +30,7 @@ For more details see [GitHub Flavored Markdown](https://guides.github.com/featur
 
 $$IterationRange = \frac{TextureSize}{2^{Iteration+ 1}}$$
 
-The $Opposite$ value
+The $]{-\frac{\pi}{2},\frac{\pi}{2}}[$ value
 
 #0366d6 Lala
 
