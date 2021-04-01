@@ -86,7 +86,7 @@ body {
       
       .item--current {
         a {
-          background-size: 100%;
+          transform: scaleX(1);
           //color: $linkColour;
           //text-shadow: $navShadox;
         }
@@ -99,18 +99,18 @@ body {
       color: $white;
       
       background-color: $navBackground;
-      background-size: 0%;
-      transition: background-size 0.1s;
+      transform: scaleX(0);
+        transition: all 0.1s;
       border-radius: $navBorderRadius;
     }
     .nav a:hover {
-      background-size: 100%;
+      transform: scaleX(1);
       //color: $linkColour;
       //text-shadow: $navShadox;
       
     }
     .nav a:active {
-      background-size: 100%;
+      transform: scaleX(1);
       //color: $linkColour;
       //text-shadow: $navShadox;
     }
