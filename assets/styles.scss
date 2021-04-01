@@ -69,6 +69,11 @@ body {
     
     .nav {
      text-align: center;
+      &--current {
+        a {
+         color: $activeColour;
+        }
+      }
     }
     
     .nav a {
@@ -79,13 +84,6 @@ body {
     }
     .nav a:active {
       color: $hoverColour;
-    }
-    .nav {
-      &--current {
-        a {
-         color: $activeColour;
-        }
-      }
     }
   } 
 }
