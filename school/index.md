@@ -1,7 +1,7 @@
 ---
 title: School Projects
 feature_text: |
-  A demo of Markdown and HTML includes
+  Feature Text
 excerpt: "A demo of Markdown and HTML includes"
 aside: false
 ---
