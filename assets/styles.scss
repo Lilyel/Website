@@ -15,6 +15,7 @@ $headingColour: #242e2b !default;
 $bodyColour: #384743 !default;
 $linkColour: #da82ff !default;
 $hoverColour: #8b32b1 !default;
+$activeColour: #c78be0 !default;
 $focusColour: #fa407a !default;
 $captionColour: #a8adac !default;
 $white: #ffffff !default;
@@ -64,10 +65,21 @@ body {
   .container {
     background-color: transparent;
     place-content: center;
-  }
-  .nav {
-    text-align: center;
-  }
+    
+    .nav {
+     text-align: center;
+    }
+    
+    .nav a {
+      color: $white;
+    }
+    .nav a:hover {
+      color: $hoverColour;
+    }
+    .nav a:active {
+      color: $activeColour;
+    }
+  } 
 }
 
 .content {
