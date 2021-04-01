@@ -70,6 +70,8 @@ body {
     
     .nav {
      text-align: center;
+     text-shadow: 2px 2px 4px black;
+      
       .item--current {
         a {
          color: $hoverColour;
