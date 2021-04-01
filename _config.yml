@@ -4,7 +4,7 @@ remote_theme: daviddarnes/alembic@main
 # Site settings
 encoding: utf-8 # Make sure the encoding is right
 lang: en-GB # Set the site language
-title: "Alembic" # Site name or title, also used in jekyll-seo-tag
+title: "Lilyël" # Site name or title, also used in jekyll-seo-tag
 logo: "/assets/logos/icon.png" # Site logo, also used in jekyll-seo-tag
 
 # Site navigation
