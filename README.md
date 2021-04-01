@@ -1,3 +1,11 @@
+---
+title: Welcome
+feature_text: |
+  Feature Text
+excerpt: "Excerpt"
+aside: false
+---
+
 ## Welcome to GitHub Pages
 
 You can use the [editor on GitHub](https://github.com/Lilyel/Website/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
