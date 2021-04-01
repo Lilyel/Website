@@ -56,9 +56,9 @@ body {
 
 .header {
   .title {
-    color: white;
-    font-site: 200%;
-    text-align: center;
+    color: white !default;
+    font-site: 200% !default;
+    text-align: center !default;
   }
   .container {
     background-color: transparent;
