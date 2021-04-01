@@ -75,10 +75,17 @@ body {
       color: $white;
     }
     .nav a:hover {
-      color: $hoverColour;
+      color: $linkColour;
     }
     .nav a:active {
-      color: $activeColour;
+      color: $hoverColour;
+    }
+    .nav {
+      &--current {
+        a {
+         color: $activeColour;
+        }
+      }
     }
   } 
 }
