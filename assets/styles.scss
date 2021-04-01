@@ -21,9 +21,11 @@ $captionColour: #a8adac !default;
 $white: #ffffff !default;
 $featureColour: #ffffff !default;
 
+$fontFamily: 'Quando', serif !default;
+
 // Typography
 $bodytype: (
-  font-family: "Georgia, serif",
+  font-family: $fontFamily,
   regular: 400,
   bold: 700,
   italic: italic,
@@ -33,7 +35,7 @@ $bodytype: (
 ) !default;
 
 $headingtype: (
-  font-family: '"Merriweather", serif',
+  font-family: $fontFamily,
   regular: 400,
   bold: 700,
   cap-height: 0.75,
@@ -42,13 +44,14 @@ $headingtype: (
 ) !default;
 
 $monospacetype: (
-  font-family: "Menlo, monospace",
+  font-family: $fontFamily,
   regular: 400,
   cap-height: 0.68,
   text-align: justify,
   text-justify: inter-word
 ) !default;
 
+@import url('https://fonts.googleapis.com/css2?family=Quando&display=swap');
 @import "alembic";
 
 body {
