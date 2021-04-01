@@ -21,7 +21,7 @@ $captionColour: #a8adac !default;
 $white: #ffffff !default;
 $featureColour: #ffffff !default;
 
-$fontFamily: 'Quando', serif !default;
+$fontFamily: 'Capriola', sans-serif !default;
 
 // Typography
 $bodytype: (
@@ -51,7 +51,7 @@ $monospacetype: (
   text-justify: inter-word
 ) !default;
 
-@import url('https://fonts.googleapis.com/css2?family=Quando&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Capriola&display=swap');
 @import "alembic";
 
 body {
@@ -109,7 +109,7 @@ body {
   padding-left: 0px;
   padding-right: 0px;
   color: $featureColour !important;
-  font-size: 200% !important;
+  font-size: 45px !important;
   .container {
     min-height: 200px !important;
     max-width: 98%;
