@@ -78,18 +78,11 @@ body {
     padding: 0px 0px;
     
     .nav {
-      padding: $navPadding;
-      
       text-align: center;
       text-transform: uppercase;
       font-family: $headerFontFamily;
       font-size: 12px;
       font-weight: 400 !important;
-            
-      background-color: $navBackground;
-      background-size: 0%;
-      transition: background-size 0.1s;
-      border-radius: $navBorderRadius;
       
       .item--current {
         a {
@@ -101,7 +94,14 @@ body {
     }
     
     .nav a {
+      padding: $navPadding;
+      
       color: $white;
+      
+      background-color: $navBackground;
+      background-size: 0%;
+      transition: background-size 0.1s;
+      border-radius: $navBorderRadius;
     }
     .nav a:hover {
       background-size: 100%;
