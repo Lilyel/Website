@@ -62,6 +62,7 @@ body {
 .header {
   .title {
     color: white;
+    font-family: $headerFontFamily;
     font-size: 40px !important;
     font-weight: 400;
     text-align: center;
@@ -75,6 +76,7 @@ body {
     .nav {
       text-align: center;
       text-transform: uppercase;
+      font-family: $headerFontFamily;
       font-size: 12px;
       font-weight: 400 !important;
       
@@ -113,6 +115,7 @@ body {
   padding-left: 0px;
   padding-right: 0px;
   color: $featureColour !important;
+  font-family: $headerFontFamily;
   font-size: 45px !important;
   font-weight: 400 !important;
   
