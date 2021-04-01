@@ -26,6 +26,7 @@ $bodyFontFamily: 'Roboto', sans-serif !default;
 
 $navPadding: 15px 10px !default;
 $navBackground: #e5e5e530 !default;
+$navBackgroundTransparent: #e5e5e500 !default;
 $navBorderRadius: 10px !default;
 
 // Typography
@@ -86,7 +87,7 @@ body {
       
       .item--current {
         a {
-          transform: scaleX(1) !important;
+          background-color: $navBackground;
           //color: $linkColour;
           //text-shadow: $navShadox;
         }
@@ -98,19 +99,18 @@ body {
       
       color: $white;
       
-      background-color: $navBackground;
-      transform: scaleX(0) !important;
-      transition: all 0.3s;
+      background-color: $navBackgroundTransparent;
+      transition: background-color 0.3s;
       border-radius: $navBorderRadius;
     }
     .nav a:hover {
-      transform: scaleX(1) !important;
+      background-color: $navBackground;
       //color: $linkColour;
       //text-shadow: $navShadox;
       
     }
     .nav a:active {
-      transform: scaleX(1) !important;
+      background-color: $navBackground;
       //color: $linkColour;
       //text-shadow: $navShadox;
     }
