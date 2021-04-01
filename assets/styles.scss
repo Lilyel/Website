@@ -24,7 +24,9 @@ $featureColour: #ffffff !default;
 $headerFontFamily: 'Capriola', sans-serif !default;
 $bodyFontFamily: 'Roboto', sans-serif !default;
 
-$navShadox: 2px 2px 4px #151515;
+$navPadding: 15px 10px !default;
+$navBackground: #e5e5e530 !default;
+$navBorderRadius: 10px !default;
 
 // Typography
 $bodytype: (
@@ -76,16 +78,24 @@ body {
     padding: 0px 0px;
     
     .nav {
+      padding: $navPadding;
+      
       text-align: center;
       text-transform: uppercase;
       font-family: $headerFontFamily;
       font-size: 12px;
       font-weight: 400 !important;
+            
+      background-color: $navBackground;
+      background-size: 0%;
+      transition: background-size 0.1s;
+      border-radius: $navBorderRadius;
       
       .item--current {
         a {
-          color: $linkColour;
-          text-shadow: $navShadox;
+          background-size: 100%;
+          //color: $linkColour;
+          //text-shadow: $navShadox;
         }
       }
     }
@@ -94,12 +104,15 @@ body {
       color: $white;
     }
     .nav a:hover {
-      color: $linkColour;
-      text-shadow: $navShadox;
+      background-size: 100%;
+      //color: $linkColour;
+      //text-shadow: $navShadox;
+      
     }
     .nav a:active {
-      color: $linkColour;
-      text-shadow: $navShadox;
+      background-size: 100%;
+      //color: $linkColour;
+      //text-shadow: $navShadox;
     }
   } 
 }
