@@ -63,8 +63,7 @@ body {
   }
   .container {
     background-color: transparent;
-    padding-left: 5%;
-    padding-right: 5%;
+    place-content: center;
   }
   .nav {
     text-align: center;
