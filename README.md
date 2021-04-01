@@ -1,10 +1,3 @@
----
-title: Welcome
-feature_text: |
-  Feature Text
-excerpt: "Excerpt"
-aside: false
----
 
 ## Welcome to GitHub Pages
 
