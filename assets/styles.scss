@@ -69,7 +69,7 @@ body {
     
     .nav {
      text-align: center;
-      &--current {
+      .item--current {
         a {
          color: $activeColour;
         }
