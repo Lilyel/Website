@@ -17,6 +17,10 @@ navigation_header:
   url: /perso/
 - title: School Projects
   url: /school/
+- title: Résumé
+  url: /
+- title: Contact
+  url: /
   
 navigation_footer:
 - title: Lilyel
