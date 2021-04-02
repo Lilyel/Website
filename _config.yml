@@ -37,9 +37,9 @@ navigation_header:
 - title: School Projects
   url: /school/
 - title: Résumé
-  url: /
+  url: /resume/
 - title: Contact
-  url: /
+  url: /contact/
   
 navigation_footer:
 - title: Lilyel
