@@ -1,5 +1,15 @@
 remote_theme: daviddarnes/alembic@main
 
+# Files excluded from Jekyll builds
+exclude:
+- README.md
+- CODE_OF_CONDUCT.md
+- CONTRIBUTING.md
+- LICENSE
+- CNAME
+- Gemfile
+- Gemfile.lock
+- .jekyll-cache
 
 # Installed Gems
 plugins:
@@ -29,7 +39,7 @@ logo: "/assets/logos/icon.png" # Site logo, also used in jekyll-seo-tag
 # Site navigation
 navigation_header:
 - title: Home
-  url: /
+  url: /Home/
 - title: Professional Projects
   url: /pro/
 - title: Personal Projects
