@@ -1,9 +1,5 @@
 ---
-title: Professional Projects
-feature_text: |
-  Feature Text
-excerpt: "Excerpt"
-aside: false
+title: Profesionnal Projects
 ---
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pellentesque diam volutpat commodo sed egestas egestas fringilla. Venenatis cras sed felis eget velit aliquet. Phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. In metus vulputate eu scelerisque felis. Eleifend donec pretium vulputate sapien. Eget mi proin sed libero enim sed faucibus turpis in. Sapien pellentesque habitant morbi tristique senectus et netus et. Dapibus ultrices in iaculis nunc sed augue. Bibendum est ultricies integer quis auctor elit. Nunc faucibus a pellentesque sit amet porttitor eget. Viverra tellus in hac habitasse. Platea dictumst quisque sagittis purus sit amet. Duis tristique sollicitudin nibh sit amet. Tortor id aliquet lectus proin nibh nisl condimentum id venenatis.
