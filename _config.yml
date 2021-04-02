@@ -39,7 +39,7 @@ logo: "/assets/logos/icon.png" # Site logo, also used in jekyll-seo-tag
 # Site navigation
 navigation_header:
 - title: Home
-  url: /Home/
+  url: /
 - title: Professional Projects
   url: /pro/
 - title: Personal Projects
