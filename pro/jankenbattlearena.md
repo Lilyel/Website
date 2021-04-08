@@ -14,4 +14,4 @@ The game is developed using Unity3D (C#) and Visual Studio 2012. We used Plastic
 
 In the game, the player can possess several spirits, he can equip them with a weapon and a shield, improve their spells or unlock new ones. Then, the player can fight another player or an artificial intelligence.
 
-![Image](../assets/SpiritDetail.png)
+![Example of spirit with its items and spells.](https://github.com/Lilyel/Website/blob/main/assets/jankenbattlearena/SpiritDetail.png)
