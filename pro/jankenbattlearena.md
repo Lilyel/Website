@@ -38,7 +38,8 @@ At the end of the fight, the players win some gold (more for the winner). Gold i
 
 ## My Tasks
 
-*User Interface* :
+
+###### *User Interface* :
 
 - Upgrade all existing menus with new artworks and update functionalities. These menus were the one where the player sets up the spirits and the one where the player can equip a weapon and a shield on a spirit. I also worked on the spirits selection menu and a bit on the rewards screen after the fight.
 
@@ -54,7 +55,8 @@ At the end of the fight, the players win some gold (more for the winner). Gold i
 
 - Implementation of the languages module to translate every texts of the menus.
 
-​*Gameplay* :
+
+###### *Gameplay* :
 
 - Implementation of tutorials and dialogues architectures.
 
@@ -66,7 +68,8 @@ At the end of the fight, the players win some gold (more for the winner). Gold i
 
 - iOS porting.​
 
-*Tools* (Windows Presentation Foundation, C#) :
+
+###### *Tools* (Windows Presentation Foundation, C#) :
 
 - Development of an application for designers to easily add, remove or modify translations in languages supported by Unity. The tool writes translations in an XML, which will be loaded in the game.
 
