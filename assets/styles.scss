@@ -35,26 +35,20 @@ $bodytype: (
   regular: 400,
   bold: 700,
   italic: italic,
-  cap-height: 0.75,
-  text-align: justify,
-  text-justify: inter-word
+  cap-height: 0.75
 ) !default;
 
 $headingtype: (
   font-family: $headerFontFamily,
   regular: 400,
   bold: 700,
-  cap-height: 0.75,
-  text-align: justify,
-  text-justify: inter-word
+  cap-height: 0.75
 ) !default;
 
 $monospacetype: (
   font-family: "Menlo, monospace",
   regular: 400,
-  cap-height: 0.68,
-  text-align: justify,
-  text-justify: inter-word
+  cap-height: 0.68
 ) !default;
 
 @import url('https://fonts.googleapis.com/css2?family=Capriola&family=Roboto&display=swap');
@@ -122,6 +116,13 @@ body {
   background-color: $white;
   border-radius: 7px;
   padding: 25px;
+
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.typeset ul li, .typeset ol li {
+  margin-left: 2rem;
 }
 
 .feature {

@@ -14,27 +14,31 @@ The game is developed using Unity3D (C#) and Visual Studio 2012. We used Plastic
 
 In the game, the player can possess several spirits, he can equip them with a weapon and a shield, improve their spells or unlock new ones. Then, the player can fight another player or an artificial intelligence.
 
-![alt text](https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/SpiritDetail.png "Example of spirit with its items and spells.")
+{% include figure.html image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/SpiritDetail.png" caption="Example of spirit with its items and spells." %}
 
 During the fight, there are, at first, three symbols : rock, paper and scissors. The player has to choose one, then the opponent’s symbol is revealed. If the player wins, the spirit attacks the enemy, if he loses his spirit is attacked by the adversary’s one. Spells can be chosen just after the symbol if the spirit has enough Doki (energy).
 
-![alt text](https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/SymbolButtons.png "Symbol selection. The colored outline of the buttons represents the remaining time to choose.")
+{% include figure.html image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/SymbolButtons.png" caption="Symbol selection. The colored outline of the buttons represents the remaining time to choose." %}
 
-![alt text](https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/AttackDefenseButtons.png "Opponent's symbol revelation.")
+{% include figure.html image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/AttackDefenseButtons.png" caption="Opponent's symbol revelation." %}
 
 In case of a draw, the winner will be determined thanks to a mini game. In those games, players have to trace circles, tap the screen or slice a symbol as fast as possible. The fastest player will win the round.
 
-![alt text](https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/RockDraw.png "Symbol to circle.")
+{% include figure.html image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/RockDraw.png" caption="Symbol to circle." %}
 
-![alt text](https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/ScissorsDraw.png "Symbol to tap.")
+{% include figure.html image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/ScissorsDraw.png" caption="Symbol to tap." %}
 
-![alt text](https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/PaperDraw.png "Symbol to slice.")
+{% include figure.html image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/PaperDraw.png" caption="Symbol to slice." %}
 
 At the end of the fight, the players win some gold (more for the winner). Gold is used in the gift machine to get new stuff or some components to improve spells or purchase new spirits.
 
-![alt text](https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/P4Minou.PNG "Rewards show up, then the gift machine appears.")
+{% include figure.html image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/P4Minou.PNG" caption="Rewards show up, then the gift machine appears." %}
 
-![alt text](https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/GiftMachine.png "For some gold, the player can try his luck to get some gifts.")
+{% include figure.html image="https://raw.githubusercontent.com/Lilyel/Website/
+main/assets/jankenbattlearena/GiftMachine.png" caption="For some gold, the player can try his luck to get some gifts." %}
+
+{% include image-modal.html image="https://raw.githubusercontent.com/Lilyel/Website/
+main/assets/jankenbattlearena/GiftMachine.png" caption="For some gold, the player can try his luck to get some gifts." %}
 
 ## My Tasks
 
