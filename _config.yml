@@ -26,7 +26,7 @@ plugins:
 # Jekyll settings
 sass:
   style: compressed # Style compression
-  load_paths: "/assets/"
+  load_paths: "/assets/", "https://github.com/Lilyel/Website/tree/main/assets"
 permalink: pretty  # Permalink style (/YYYY/MM/DD/page-name/)
 excerpt_separator: <!-- more --> # Marks end of excerpt in posts
 timezone: Europe/London # Timezone for blog posts and alike
