@@ -15,3 +15,29 @@ The principle of the game is simple, bring the little teddies to their respectiv
 There is also a map creator, to make your own puzzles and compete against yourself. Add as many level as you want with custom passwords and limits time. You are completly free !
 
 Finally, there is a score board too, you can see the 9th first best scores. It is computed from the number of accomplished levels.
+
+<div class="image-modal-grid-row"> 
+    <div class="image-modal-grid-column">
+        {% include image-modal.html id=0 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/creaskweek/Menu.PNG" caption="Main Menu" height=256 width=256 %}
+    </div>
+
+    <div class="image-modal-grid-column">
+        {% include image-modal.html id=1 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/creaskweek/Score.PNG" caption="Scoreboard" height=256 width=256 %}
+    </div>
+
+    <div class="image-modal-grid-column">
+        {% include image-modal.html id=2 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/creaskweek/Level1.PNG" caption="Exemple of a level (here, the level 1)" height=256 width=256 %}
+    </div>
+
+    <div class="image-modal-grid-column">
+        {% include image-modal.html id=3 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/creaskweek/Level4.PNG" caption="Exemple of a level (here, the level 4)" height=256 width=256 %}
+    </div>
+
+    <div class="image-modal-grid-column">
+        {% include image-modal.html id=4 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/creaskweek/Editor.PNG" caption="Exemple of an edited map" height=256 width=256 %}
+    </div>
+
+    <div class="image-modal-grid-column">
+        {% include image-modal.html id=5 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/creaskweek/MapEditPlayed.PNG" caption="The level created in the previous picture, in-game" height=256 width=256 %}
+    </div>
+</div>
