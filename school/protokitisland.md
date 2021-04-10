@@ -1,5 +1,5 @@
 ---
-title: CreaDoom
+title: Protokit Island
 ---
 
 Protokit Island is a racing game with a small RPG dimension.
@@ -14,5 +14,4 @@ The car we created and the game in general worked well in the end which was trul
 
 You can click on the picture below to be redirected on the school page of the game.
 
- {% include image-button.html link="http://www.creajeux.fr/en/projet/protokit-island/" image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/creadoom/Composition-1.gif" height=164 width=164 %}
- 
+ {% include image-button.html link="https://www.creajeux.fr/project/protokit-island/" image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/protokitisland/Link.png" height=164 width=164 %}
