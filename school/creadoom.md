@@ -18,22 +18,22 @@ The player has two types of weapons : the gun or grenades. Munitions are not unl
 
 <div class="image-modal-grid-row"> 
     <div class="image-modal-grid-column">
-        {% include image-modal.html id=0 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/creaskweek/Menu.PNG" caption="Main Menu" height=256 width=256 %}
+        {% include image-modal.html id=0 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/creadoom/Menu.PNG" caption="Main Menu" height=256 width=256 %}
     </div>
 
     <div class="image-modal-grid-column">
-        {% include image-modal.html id=1 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/creaskweek/Score.PNG" caption="Scoreboard" height=256 width=256 %}
+        {% include image-modal.html id=1 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/creadoom/Start.PNG" caption="Beginning of the level" height=256 width=256 %}
     </div>
 
     <div class="image-modal-grid-column">
-        {% include image-modal.html id=2 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/creaskweek/Level1.PNG" caption="Exemple of a level (here, the level 1)" height=256 width=256 %}
+        {% include image-modal.html id=2 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/creadoom/PowerUp.PNG" caption="Power Ups : Health on the front and ammo in the back" height=256 width=256 %}
     </div>
 
     <div class="image-modal-grid-column">
-        {% include image-modal.html id=3 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/creaskweek/Level4.PNG" caption="Exemple of a level (here, the level 4)" height=256 width=256 %}
+        {% include image-modal.html id=3 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/creadoom/Enemies.PNG" caption="Yellow shots and move to you, blue throws grenades and is still" height=256 width=256 %}
     </div>
 
     <div class="image-modal-grid-column">
-        {% include image-modal.html id=4 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/creaskweek/Editor.PNG" caption="Exemple of an edited map" height=256 width=256 %}
+        {% include image-modal.html id=4 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/creadoom/BossHE.PNG" caption="Final Boss" height=256 width=256 %}
     </div>
 </div>
