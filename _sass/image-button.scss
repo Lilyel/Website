@@ -1,0 +1,25 @@
+
+.image-button-figure {
+    position: relative;
+
+    line-height: 0;
+    &--left {
+      float: left;
+      padding-right: .8rem;
+    }
+    &--right {
+      float: right;
+      text-align: right;
+      padding-left: .8rem;
+    }
+    &--center {
+      text-align: center;
+      clear: both;
+    }
+}
+
+.image-button-figure img.image-button-main {
+    position: relative;
+    object-fit: contain;
+}
+
