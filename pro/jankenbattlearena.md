@@ -24,12 +24,18 @@ During the fight, there are, at first, three symbols : rock, paper and scissors.
 
 In case of a draw, the winner will be determined thanks to a mini game. In those games, players have to trace circles, tap the screen or slice a symbol as fast as possible. The fastest player will win the round.
 
-<div style="display:inline; white-space:nowrap;">
-{% include image-modal.html id=3 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/RockDraw.png" caption="Symbol to circle." height=256 width=256 %}
+<div class="image-modal-grid-row"> 
+    <div class="image-modal-grid-column">
+        {% include image-modal.html id=3 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/RockDraw.png" caption="Symbol to circle." height=256 width=256 %}
+    </div>
 
-{% include image-modal.html id=4 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/ScissorsDraw.png" caption="Symbol to tap." height=256 width=256 %}
+    <div class="image-modal-grid-column">
+        {% include image-modal.html id=4 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/ScissorsDraw.png" caption="Symbol to tap." height=256 width=256 %}
+    </div>
 
-{% include image-modal.html id=5 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/PaperDraw.png" caption="Symbol to slice." height=256 width=256 %}
+    <div class="image-modal-grid-column">
+        {% include image-modal.html id=5 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/PaperDraw.png" caption="Symbol to slice." height=256 width=256 %}
+    </div>
 </div>
 
 At the end of the fight, the players win some gold (more for the winner). Gold is used in the gift machine to get new stuff or some components to improve spells or purchase new spirits.
