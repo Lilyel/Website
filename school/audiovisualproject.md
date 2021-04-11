@@ -126,11 +126,11 @@ Unfortunately, if two objects are too close, the exploration consider them as th
 
 <div class="image-modal-grid-row"> 
     <div class="image-modal-grid-column">
-        {% include image-modal.html id=8 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/audiovisualproject/CurrentAABB.jpeg" caption="Objects far enough" height=256 width=256 %}
+        {% include image-modal.html id=9 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/audiovisualproject/CurrentAABB.jpeg" caption="Objects far enough" height=256 width=256 %}
     </div>
 
     <div class="image-modal-grid-column">
-        {% include image-modal.html id=9 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/audiovisualproject/CurrentAABBTooClose.jpeg" caption="Objects too close" height=256 width=256 %}
+        {% include image-modal.html id=10 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/audiovisualproject/CurrentAABBTooClose.jpeg" caption="Objects too close" height=256 width=256 %}
     </div>
 </div>
 
@@ -152,11 +152,11 @@ The noise have an important and negative effect for the tracking. It generates m
 
 <div class="image-modal-grid-row"> 
     <div class="image-modal-grid-column">
-        {% include image-modal.html id=10 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/audiovisualproject/SheepNoiseWithoutBlur.jpeg" caption="Tracking without blur" height=256 width=256 %}
+        {% include image-modal.html id=11 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/audiovisualproject/SheepNoiseWithoutBlur.jpeg" caption="Tracking without blur" height=256 width=256 %}
     </div>
 
     <div class="image-modal-grid-column">
-        {% include image-modal.html id=11 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/audiovisualproject/SheepNoiseWithBlur.jpeg" caption="Tracking with blur" height=256 width=256 %}
+        {% include image-modal.html id=12 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/audiovisualproject/SheepNoiseWithBlur.jpeg" caption="Tracking with blur" height=256 width=256 %}
     </div>
 </div>
 
