@@ -40,4 +40,4 @@ The more you collect coins, greater the weapons will be and the game difficulty 
     </div>
 </div>
 
- {% include image-button.html link="https://www.dropbox.com/s/wt2eqf6z96y3zsp/SuperSmallBoat.zip?dl=0" image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/supersmallboat/DownloadSelected.png" height=164 width=164 %}
+{% include image-button.html link="https://www.dropbox.com/s/wt2eqf6z96y3zsp/SuperSmallBoat.zip?dl=0" image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/supersmallboat/DownloadSelected.png" height=164 width=164 %}
