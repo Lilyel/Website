@@ -1,0 +1,11 @@
+.content {
+    width: 66%;
+    margin: auto;
+    background-color: white;
+    border-radius: 7px;
+    padding: 25px;
+  
+    font-family: 'Roboto', sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+}

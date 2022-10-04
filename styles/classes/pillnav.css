@@ -6,8 +6,12 @@
 /* Style the links inside the pill navigation menu */
 .pill-nav a {
   display: inline-block;
+
   padding: 10px;
-  color: black; 
+  color: white; 
+  background-color: #ffffff00;
+  transition: background-color 0.3s;
+
   text-decoration: none;
   font-family: 'Capriola', sans-serif;
   font-size: 20px;
@@ -17,12 +21,12 @@
   
 /* Change the color of links on mouse-over */
 .pill-nav a:hover {
-  background-color: #ddd;
-  color: black;
+  background-color: #ffffff3d;
+  color: white;
 }
 
 /* Add a color to the active/current link */
 .pill-nav a.active {
-  background-color: dodgerblue;
+  background-color: #ffffff3d;
   color: white;
 }
