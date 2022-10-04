@@ -10,3 +10,9 @@
     font-weight: 400;
     color: #384743;
 }
+
+@media screen and (max-width: 600px) {
+    .content {
+        width: 90%;
+        padding: 10px;
+}
