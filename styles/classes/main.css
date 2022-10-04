@@ -1,0 +1,11 @@
+main {
+    width: 95%;
+    background-color: white;
+    border-radius: 7px;
+    padding: 25px;
+  
+    text-align: justify;
+    font-family: 'Roboto', sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+}
