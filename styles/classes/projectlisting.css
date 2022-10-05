@@ -1,0 +1,26 @@
+.projectlisting {
+    display: block;
+}
+
+.projectlisting-pic {
+    width: 25%;
+    float: left;
+    align-self: center;
+}
+
+.projectlisting-desc {
+    width: 75%;
+    float: left;
+}
+
+.projectlisting-desc-lang {
+    color: #bada55;
+}
+
+.projectlisting-desc-lib {
+    color: #f07d48
+}
+
+.projectlisting-desc-platform {
+    color: #A9A9A9;
+}
