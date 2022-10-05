@@ -1,0 +1,440 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Capriola">
+    <link rel="stylesheet" href="./../styles/classes/title.css">
+    <link rel="stylesheet" href="./../styles/classes/pillnav.css">
+    <link rel="stylesheet" href="./../styles/classes/body.css">
+    <link rel="stylesheet" href="./../styles/classes/content.css">
+    <link rel="stylesheet" href="./../styles/classes/projectlisting.css">
+
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <title>Title</title>    
+</head>
+
+
+
+<body>
+
+    
+<header>
+    <p class="title">Lilyël</p>
+</header>
+
+<nav>
+    <div class="pill-nav">
+        <a href="#home">Home</a>
+        <a href="#pro">Professional projects</a>
+        <a href="#perso">Personal projects</a>
+        <a href="#school">School projects</a>
+        <a href="#about">About</a>
+    </div>
+</nav>
+
+<div class="content">
+    <h1>K-Buffer And Translucency</h1>
+    
+    <p>
+        In this post, I will describe a translucency technique using the K-Buffer described by Andreas A. Vasilakis and Ioannis Fudos in their paper "<a href="https://abasilak.github.io/papers/conferences/i3d2014/paper.pdf">K<sup>+</sup>-buffer : Fragment Synchronized k-buffer</a>" to perform depth peeling.
+    </p>
+    <p>I implemented it with my personal little engine in C++ using OpenGL.</p>
+    <p>
+        Please be aware that the purpose of this implementation is to learn and discover the algorithms. It may be very verbose and not optimized but the objective was to understand the idea and have the possibility to come back and still be able to easily read the code.
+    </p>
+
+    <h2>Why Depth Peeling ?</h2>
+    <p>
+        To process the translucency of an object, we need to know its thickness, the thicker it is the more it absorbs light. Since an object can be thick at some place and thin at some other, a constant value will not achieve a nice result.
+    </p>
+    <p>
+        A way to get the thickness of an object is to use a depth buffer (“Z-Buffer”) that will store the depth of the fragments. For a simple object, we can proceed with only two steps :
+    </p>
+    <ul>
+    <li>Draw the object back faces using only a depth buffer.</li>
+    <li>Draw the object front faces and compute the distance between the front fragment and the back fragment stored in the depth buffer.</li>
+    </ul>
+    <p>
+        For a more complex object that have concavities or separate layers we will need more than two fragments to compute a nice result because more than one surface may absorb light.
+    </p>
+    <p>
+        To achieve this, we need to do a depth peeling using a K-Buffer to retrieve several fragments in a back to front order. Having these ordered fragments and knowing which ones are entry points (green on the image below) and exit points (yellow on the image bellow) of the object, we can process the thickness of every layer crossed.
+    </p>
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/kbuffer/DepthPeeling.png" alt="Depth Peeling" width="100%" height="auto">
+
+
+    <h2>K-Buffer</h2>
+    <p>A K-Buffer allows to store the <i>K</i> nearest fragments when rendering objects and then in a second pass we can sort and blend these fragments.</p>
+
+    <p>
+        I tried to implement the solution proposed in the paper “K<sup>+</sup>-buffer : Fragment Synchronized k-buffer” that relies on a spin-lock strategy. There are a lot of other solutions, some of them are presented in these nice <a href="http://on-demand.gputechconf.com/gtc/2014/presentations/S4385-order-independent-transparency-opengl.pdf">slides</a> made by NVIDIA. According to this document, the spin-lock solution is kind of the worst but I wanted to give it a try to experiment a critical section behavior on GPU.
+    </p>
+
+    <h3>Spin-Lock</h3>
+    <p>To perform a spin-lock we need to use the <i>image variables</i> of OpenGL and their <i>atomic operations</i>.</p>
+
+    <p>
+        I found this <a href="https://cs.brown.edu/courses/csci1950-v/lecture/week6.pdf">presentation</a> that helped me to learn to use and understand the image variables. The <a href="https://www.khronos.org/opengl/wiki/Image_Load_Store">Khronos wiki</a> was also very helpful.
+    </p>
+    <p>
+        The spin-lock will help us to be sure that only one thread at a time is currently modifying the fragment list of the pixel that we are storing. Like CPU multi-threading, concurrent modification of the same pixel by several shader invocations can lead to unexpected result (like flickering).
+    </p>
+    <p>
+        Each thread will have a fragment to put in the pixel list. The pixel location of a fragment is retrieved using the <i>gl_FragCoord</i> built-in variable. We round down the \(x\) and \(y\) component of the <i>gl_FragCoord</i> variable to find the pixel 2D coordinates.
+    </p>
+    <p>
+        The idea is to use an image of value \(0\), when a thread wants to change the fragments list of a pixel it changes the value to \(1\) using the atomic operation <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/imageAtomicExchange.xhtml">imageAtomicExchange</a>.
+    </p>
+    <p>
+        The exchange function returns the previous value of the image, if the value was \(0\) the thread can start modifying the list. But if the value was \(1\), that means the list at this pixel is not available (another thread is currently modifying it) and the thread can’t enter the critical section and process its fragment.
+    </p>
+    <p>
+        The threads will loop on the atomic operation until they can enter the critical section.
+    </p>
+    <p>
+        Once a thread has finished processing its fragment, it puts back the value \(0\) into the image to free the critical section.
+    </p>
+
+    <pre class="prettyprint lang-cpp">
+bool LockSemaphore( ivec2 _Pixel )
+{
+    // Quick check to see if the pixel is available.
+    if( imageLoad( Semaphores, _Pixel ).r == 1 )
+        return false;
+
+    return imageAtomicExchange( Semaphores, _Pixel, 1 ) == 0;
+}
+
+void FreeSemaphore( ivec2 _Pixel )
+{
+    imageStore( Semaphores, _Pixel, uvec4( 0 ) );
+}
+
+void main()
+{
+    ivec2 Pixel = ivec2( gl_FragCoord.xy );
+
+    bool StayInLoop = true;
+    while( StayInLoop )
+    {
+        // Wait until the fragment is available.
+        // Once the semaphore passed, we are sure that we can read and write the textures on the pixel location safely.
+        if( LockSemaphore( Pixel ) )
+        {
+            // Do stuff on fragment list here ...
+
+            // Free the access to the pixel to let the other threads store their fragment too.
+            FreeSemaphore( Pixel );
+            StayInLoop = false;
+        }
+    }
+
+    discard;
+}</pre>
+
+    <p>
+        For the image of value \(0\) or \(1\), I use a <i>GL_TEXTURE_2D</i> of format <i>GL_R32UI</i> and pixel format <i>GL_RED_INTEGER</i>. The 32-bit integer format is a restriction of the atomic operations.
+    </p>
+
+    <pre class="prettyprint lang-cpp">layout(binding = 0, r32ui) coherent uniform uimage2D Semaphores;</pre>
+
+    <p>
+        The <a href="https://www.khronos.org/opengl/wiki/Fragment#Fragment_discard">discard</a> instruction allows not to write anything on the render target and quit the shader.
+    </p>
+
+    <h3>Clear Pass</h3>
+    <p>
+        To clear the different textures that we are going to use, I call the <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glClearTexSubImage.xhtml">glClearTexSubImage</a> function.
+    </p>
+    <p>
+        Note that the paper proposes to do a full-screen pass and uses the imageStore function to set the value of the images instead.
+    </p>
+    <p>
+        The depths texture is reset to \(1\) and all other textures are reset to \(0\).
+    </p>
+
+    <h3>Store pass</h3>
+    <p>
+        Now that we can secure the access to a pixel, we can safely store the K nearest fragments in a list.
+    </p>
+    <p>
+        To store the fragments the paper proposes two solutions :
+    </p>
+    <ul>
+        <li>An array</li>
+        <li>A heap</li>
+    </ul>
+    <p>
+        The heap is advised for a <i>K</i> superior to \(16\) to keep good performances. The complexity of insertion and sort of the heap (\(O(logN)\)) scales better than the array complexity (\(O(N)\) for the insertion and \(O(N2)\) for the sort).
+    </p>
+    <p>
+        I have a simple scene so I only did the array solution. It is also the easiest solution to implement but the heap can be a nice extension to do.
+    </p>
+    <p>
+        Note that the furthest fragment is always the first element of the array.
+    </p>
+    <p>
+        We must keep track of the actual number of fragments stored for each pixel. For that, we are going to use another image that we increment each time a new fragment is stored in the array. Once the array is full, we leave the value at its maximum value : <i>K</i>.
+    </p>
+    <p>
+        The texture used for keeping track of the number of stored fragments is a <i>GL_TEXTURE_2D</i> of format <i>GL_R8UI</i> and pixel format <i>GL_RED</i>. The image variable is :
+    </p>
+    <pre class="prettyprint lang-cpp">layout(binding = 1, r8ui) coherent uniform uimage2D Counts;</pre>
+    <p>
+        For now, we are only going to store the depth of the fragments (I will show later how I handle colors and other parameters).
+    </p>
+    <p>
+        To store the fragments depth, I use a <i>GL_TEXTURE_2D_ARRAY</i> of format <i>GL_R32F</i> and pixel format <i>GL_RED</i>. The number of slices of the array is the number <i>K</i>. For each pixel, up to <i>K</i> depth values will be stored. The image variable is :
+    </p>
+    <pre class="prettyprint lang-cpp">layout(binding = 3, r32f) coherent uniform image2DArray Depths;</pre>
+    <p>
+        During the store pass, keeping track of the number of fragments in the array will allow us to choose between two methods of insertion : when the array is not full and when the array is full.
+    </p>
+
+    <h4>When the array is not full</h4>
+    <p>If this is the first fragment, we put it in the first element of the array.</p>
+    <p>
+        If the fragment is closer than the first element, we put it at the next free position. Otherwise we replace the first element with the new fragment and place the previous first element at the next free position.
+    </p>
+    <p>The next free element index is simply the count value before incrementing it.</p>
+
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/kbuffer/InsertEmptyVeryLow.gif" alt="Insert Empty Very Low" width="33%" height="auto">
+
+    <h4>When the array is full</h4>
+    <p>
+        We must find the furthest fragment in the array (ignoring the first element) and place it at the first position. Then, we put the new fragment in place of the furthest fragment found before (that is now the first element).
+    </p>
+    <p>
+        If the new fragment is the new furthest element of the array, we just put it at the first position.
+    </p>
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/kbuffer/InsertFull.gif" alt="Insert Full" width="33%" height="auto">
+
+    <h4>Early culling</h4>
+    <p>
+        A possible little optimization is to check, before the spin-lock loop, if it is worth to process the fragment.
+    </p>
+    <p>
+        When the array is full, we can check if the incoming fragment is further than the first element. If it is, we can discard it since it is further than the <i>K</i> closer stored fragments, it is not useful to process it.
+    </p>
+
+    <h3>Resolve Pass</h3>
+    <p>        
+        Now that we have, for each pixel, a list of the <i>K</i> nearest fragments, we are going to do a full-screen pass to sort and blend them.
+    </p>
+    <p>
+        We use the images <i>Counts</i> and <i>Depths</i> filled in the store pass and we sort the depths from the furthest to the closest. As proposed in the paper, I used an <a href="https://en.wikipedia.org/wiki/Insertion_sort">insertion sort</a>.
+    </p>
+    <pre class="prettyprint lang-cpp">
+// Sort the fragment according to their depth.
+void InsertionSort( uint _Count, inout float _Depths[MAX_SIZE] )
+{
+    int i = 1;
+    while( i < _Count )
+    {
+        int j = i;
+
+        while( j > 0 && _Depths[j - 1] < _Depths[j])
+        {
+            // Swap the values.
+            float DepthJ = _Depths[j]
+            _Depths[j] = _Depths[j - 1];
+            _Depths[j - 1] = DepthJ;
+
+            j--;
+        }
+
+        i++;
+    }
+}</pre>
+
+    <p>
+        The next step is the blending of the fragments.
+    </p>
+
+    <h2>Translucency</h2>
+    <h3>Material</h3>
+    <p>
+        The necessary datas to process the translucency is :
+    </p>
+    <ul>
+    <li>The 3D world position of the rendered point that has generated the fragment.</li>
+    <li>The fragment color and its opacity.</li>
+    <li>A boolean to know if we apply translucency or transparency.</li>
+    <li>The translucent color and the distance after which the object absorbs all the light.</li>
+    <li>A boolean to know if the fragment is coming from a front or back face.</li>
+    </ul>
+    <p>
+        I separated these parameters in two categories :
+    </p>
+    <ul>
+        <li>The ones that are common to all fragments coming from the same object.</li>
+        <li>The ones that change for every fragments.</li>
+    </ul>
+
+    <h4>Common datas</h4>
+    <p>
+        In the common datas I put :
+    </p>
+
+    <ul>
+        <li>The color.</li>
+        <li>The translucent color.</li>
+        <li>The distance at which the object absorb all light.</li>
+        <li>The boolean to switch between translucency and transparency.</li>
+    </ul>
+    <p>
+        To store all these datas I use a <i>GL_TEXTURE_1D_ARRAY</i> of format <i>GL_RGBA16F</i> and pixel format <i>GL_RGBA</i>. This image variable is :
+    </p>
+
+    <pre class="prettyprint lang-cpp">layout(binding = 4, rgba16f) coherent uniform image1DArray Materials;</pre>
+
+    <p>
+        Each pixel of this 1D texture is a RGBA color and there are 3 slices. A pixel can be seen as a 4×3 matrix.
+    </p>
+    <p>
+        The first row is the color and the opacity. The second row is the translucent color. And the last row contains a boolean to know if the material has been written to the image, the boolean to determine if the object is translucent or transparent and the maximum distance at which translucent object absorbs all light.
+    </p>
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/kbuffer/MaterialsTexture.png" alt="Materials Texture" width="50%" height="auto">
+
+    <p>
+        The “Material Set ?” parameter allows us to write the material only once to the image thus saving us from some writing operations.
+    </p>
+
+    <h4>Per fragment datas</h4>
+    <p>       
+        In the per fragment datas I put :
+    </p>   
+    <ul>
+        <li>The 3D world position.</li>
+        <li>The material index.</li>
+        <li>The fragment depth.</li>
+        <li>The boolean to know if the fragment is coming from a front or a back face.</li>
+    </ul>
+
+    <p>
+        The material index links to a pixel in the 1D texture array containing the common datas. I use a <i>GL_TEXTURE_2D_ARRAY</i> of format <i>GL_R8UI</i> and pixel format <i>GL_RED</i>. The image variable is :
+    </p>
+    <pre class="prettyprint lang-cpp">layout(binding = 2, r8ui) coherent uniform uimage2DArray MaterialIndices;</pre>
+
+    <p>
+        For the world position I use a <i>GL_TEXTURE_2D_ARRAY</i> of format <i>GL_RGBA16F</i> and pixel format <i>GL_RGBA</i>. The image variable is :
+    </p>
+    <pre class="prettyprint lang-cpp">layout(binding = 5, rgba16f) coherent uniform image2DArray Positions;</pre>
+
+    <p>
+        The alpha component of the <i>Positions</i> image will store the boolean telling if the fragment came from a front or back face. The value of this boolean is retrieved from the <i>gl_FrontFacing</i> built-in variable.
+    </p>
+    <p>
+        The number of slices of the array is the <i>K</i> number and we need to move these datas like we did with the depths by inserting or sorting elements.
+    </p>
+    <p>
+        The three images (depths, positions and material indices) will hold the datas for each pixel <i>K</i> nearest fragments.
+    </p>
+
+    <p>
+        Note that it is possible to do the same with the colors and other parameters put in common. It is also possible to use another texture to store the normals then do a deferred shading in the resolve pass. 
+    </p>
+
+    <h3>Blend</h3>
+    <p>        
+        To compute the translucency, I followed the book <a href="https://www.realtimerendering.com/">Real-Time Rendering Fourth Edition</a>, the translucency is explained at the chapter 14.5 “Translucent Surfaces”.
+    </p>
+
+    <p>
+        The idea is to find how much the light is absorbed by the object. The more the light is absorbed the more we will see the object color, otherwise we will see more of the background stained by the translucent color.
+    </p>
+    <p>
+        To find the light absorption, we use the <a href="https://en.wikipedia.org/wiki/Beer%E2%80%93Lambert_law">Beer-Lambert</a>‘s law only considering one attenuation species.
+    </p>
+    <p>
+        \[\vec{T_r} =  \rm e^{ -\vec{\sigma} * d }\]
+    </p>
+    <p>
+        \(\vec{T_r}\) is the transmitted light, it will be the tint of the background. \(\vec{\sigma}\)  is the physical extinction, it represents how much the light is absorbed according to the distance traveled inside the object \(d\).
+    </p>
+    <p>
+        The physical extinction can be computed with this formula :
+    </p>
+    <p>
+        \[\vec{\sigma} = \frac{-\log( \vec{t_c} )}{d_{max}}\]
+    </p>
+    <p>
+        \(\vec{t_c}\) is the translucent color and \(d_{max}\) is the distance at which the object absorbs all light.
+    </p>
+    <p>
+        Here is a little graph to see the behavior of the formulas (with a one channel translucent color) :
+    </p>    
+
+    <iframe src="https://www.desmos.com/calculator/zzarsryw08" width="100%" height="500px" style="border: 1px solid #ccc" frameborder="0"></iframe>
+
+    <p>
+        The curve represents the amount of the background color we will see according to the distance traveled inside the object. 
+    </p>
+    <p>
+        By tweaking the \(d_{max}\) parameter we can see that the bigger its value is, the less light will be absorbed for a given thickness value. Changing this \(d_{max}\) parameter will allow us to make the object more or less translucent.
+    </p>
+    <p>
+        Using a RGB color for the \(\vec{t_c}\) parameter will allow us to stain the background.
+    </p>
+    <p>
+        To apply this tint to the background and combine it with the object color we use this formula :
+    </p>
+    <p>
+        \[\vec{c_o} = \vec{c_s} + \vec{T_r} * \vec{c_b}\]
+    </p>
+    <p>
+        \(\vec{c_s}\) is the object color and \(\vec{c_b}\) is the background color. 
+    </p>
+    <p>
+        Since we are processing the fragments from back to front, the background color can be the result of the blend of further fragments.
+    </p>
+    <p>
+        Due to the addition between the two colors, the final color can go above \(1.0\) and be clamped, using a tone mapping can be useful to get the blended color value between \(0.0\) and \(1.0\).
+    </p>
+    <p>
+        We can also apply an alpha blending with this result :
+    </p>
+    <p>
+        \[\vec{c_o} =\alpha * ( \vec{c_s} + \vec{T_r} * \vec{c_b} ) + ( 1 - \alpha ) *   \vec{c_b}\]
+    </p>
+    <p>
+        Note that for fragments from back faces, their final color is just the background color, they are considered "exit points" of the object and are not supposed to be leading to the inside of an object thus don't have thickness.
+    </p>
+    <p>
+        Here is an example of result with the Stanford dragon :
+    </p>
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/kbuffer/Dragon.png" alt="Dragon" width="100%" height="auto">
+
+
+    <h2>Demo</h2>
+    <p>
+        You can find a demo of this implementation on my <a href="https://github.com/Lilyel/KBufferTranslucency">GitHub</a>.
+    </p>
+    <p>
+        A downloadable executable can be found in the <a href="https://github.com/Lilyel/KBufferTranslucency/releases">releases</a> of the repository.
+    </p>
+
+    <h2>References and useful links</h2>
+    <ul>
+        <li>K+-buffer: Fragment Synchronized k-buffer. Andreas A. Vasilakis, Ioannis Fudos : <a href="https://abasilak.github.io/papers/conferences/i3d2014/paper.pdf">PDF</a>, <a href="https://abasilak.github.io/papers/conferences/i3d2014/presentation.pdf">Slides</a>, <a href="https://abasilak.github.io/">Website</a>.</li>
+        <li><a href="http://on-demand.gputechconf.com/gtc/2014/presentations/S4385-order-independent-transparency-opengl.pdf">NVIDIA slides about order independent transparency techniques</a>.</li>
+        <li><a href="https://cs.brown.edu/courses/csci1950-v/lecture/week6.pdf">Lecture about OpenGL image variables and operations</a>.</li>
+        <li><a href="https://www.khronos.org/opengl/wiki/Image_Load_Store">Khronos Wiki about image variables and operations</a>.</li>
+        <li><a href="http://www.sci.utah.edu/~csilva/papers/i3d2007.pdf">Multi-Fragment Effects on the GPU using the K-Buffer</a>. Louis Bavoil, Steven P. Callahan, Aaron Lefohn, Joao L. D. Comba, Claudio T. Silva.</li>
+        <li><a href="https://www.realtimerendering.com/">Real-Time Rendering Fourth Edition website</a>.</li>
+        <li><a href="https://casual-effects.com/data">Morgan McGuire’s Computer Graphics Archive</a>.</li>
+        <li><a href="https://learnopengl.com/Advanced-Lighting/HDR">LearnOpenGL tone mapping tutorial</a>.</li>
+    </ul>
+
+</div>
+
+
+</body>
+
+</html>

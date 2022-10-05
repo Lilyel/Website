@@ -3,16 +3,18 @@
     column-gap: 20px;
 }
 
-.projectlisting-pic {
-    margin: auto;
+.projectlisting-pic {    
     grid-column: 1;
     grid-row: 1;
+    width: 100%;
+    height: auto;
+    place-self: center;
 }
 
 .projectlisting-desc {
-    margin: auto;
     grid-column: 2;
     grid-row: 1;
+    place-self: center;
 }
 
 .projectlisting-desc-lang {
@@ -28,4 +30,12 @@
 .projectlisting-desc-platform {
     color: #A9A9A9;
     font-weight: 700;
+}
+
+
+@media screen and (max-width: 600px) {
+    .projectlisting-desc {
+        grid-column: 1;
+        grid-row: 2;
+    }
 }
