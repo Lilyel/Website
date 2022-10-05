@@ -9,8 +9,11 @@
     <link rel="stylesheet" href="./styles/classes/title.css">
     <link rel="stylesheet" href="./styles/classes/pillnav.css">
     <link rel="stylesheet" href="./styles/classes/body.css">
-    <link rel="stylesheet" href="./styles/classes/main.css">
     <link rel="stylesheet" href="./styles/classes/content.css">
+
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <title>Title</title>    
 </head>
@@ -26,7 +29,7 @@
 
 <nav>
     <div class="pill-nav">
-        <a class="active" href="#home">Home</a>
+        <a href="#home">Home</a>
         <a href="#news">News</a>
         <a href="#contact">Contact</a>
         <a href="#about">About</a>
@@ -36,6 +39,19 @@
 <div class="content">
     <h1>My First Heading</h1>
     <p>My first paragraph.</p>
+
+    <pre class="prettyprint">class Voila {
+        public:
+          // Voila
+          static const string VOILA = "Voila";
+        
+          // will not interfere with embedded <a href="#voila2">tags</a>.
+    }</pre>
+
+    <p>
+        When \(a \ne 0\), there are two solutions to \(ax^2 + bx + c = 0\) and they are
+  \[x = {-b \pm \sqrt{b^2-4ac} \over 2a}.\]
+    </p>
 </div>
 
 
