@@ -1,26 +1,31 @@
 .projectlisting {
-    display: block;
+    display: inline-grid;
+    column-gap: 20px;
 }
 
 .projectlisting-pic {
-    width: 25%;
-    float: left;
-    align-self: center;
+    margin: auto;
+    grid-column: 1;
+    grid-row: 1;
 }
 
 .projectlisting-desc {
-    width: 75%;
-    float: left;
+    margin: auto;
+    grid-column: 2;
+    grid-row: 1;
 }
 
 .projectlisting-desc-lang {
     color: #bada55;
+    font-weight: 700;
 }
 
 .projectlisting-desc-lib {
-    color: #f07d48
+    color: #f07d48;
+    font-weight: 700;
 }
 
 .projectlisting-desc-platform {
     color: #A9A9A9;
+    font-weight: 700;
 }
