@@ -12,7 +12,10 @@
     <link rel="stylesheet" href="./../styles/classes/content.css">
     <link rel="stylesheet" href="./../styles/classes/projectlisting.css">
 
-    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/styles/default.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
@@ -30,7 +33,7 @@
 
 <nav>
     <div class="pill-nav">
-        <a href="#home">Home</a>
+        <a href="./../index.html">Home</a>
         <a href="#pro">Professional projects</a>
         <a href="#perso">Personal projects</a>
         <a href="#school">School projects</a>
@@ -101,8 +104,7 @@
         Once a thread has finished processing its fragment, it puts back the value \(0\) into the image to free the critical section.
     </p>
 
-    <pre class="prettyprint lang-cpp">
-bool LockSemaphore( ivec2 _Pixel )
+    <pre><code class="language-cpp">bool LockSemaphore( ivec2 _Pixel )
 {
     // Quick check to see if the pixel is available.
     if( imageLoad( Semaphores, _Pixel ).r == 1 )
@@ -136,13 +138,13 @@ void main()
     }
 
     discard;
-}</pre>
+}</code></pre>
 
     <p>
         For the image of value \(0\) or \(1\), I use a <i>GL_TEXTURE_2D</i> of format <i>GL_R32UI</i> and pixel format <i>GL_RED_INTEGER</i>. The 32-bit integer format is a restriction of the atomic operations.
     </p>
 
-    <pre class="prettyprint lang-cpp">layout(binding = 0, r32ui) coherent uniform uimage2D Semaphores;</pre>
+    <pre><code class="language-cpp">layout(binding = 0, r32ui) coherent uniform uimage2D Semaphores;</code></pre>
 
     <p>
         The <a href="https://www.khronos.org/opengl/wiki/Fragment#Fragment_discard">discard</a> instruction allows not to write anything on the render target and quit the shader.
@@ -185,14 +187,14 @@ void main()
     <p>
         The texture used for keeping track of the number of stored fragments is a <i>GL_TEXTURE_2D</i> of format <i>GL_R8UI</i> and pixel format <i>GL_RED</i>. The image variable is :
     </p>
-    <pre class="prettyprint lang-cpp">layout(binding = 1, r8ui) coherent uniform uimage2D Counts;</pre>
+    <pre><code class="language-cpp">layout(binding = 1, r8ui) coherent uniform uimage2D Counts;</code></pre>
     <p>
         For now, we are only going to store the depth of the fragments (I will show later how I handle colors and other parameters).
     </p>
     <p>
         To store the fragments depth, I use a <i>GL_TEXTURE_2D_ARRAY</i> of format <i>GL_R32F</i> and pixel format <i>GL_RED</i>. The number of slices of the array is the number <i>K</i>. For each pixel, up to <i>K</i> depth values will be stored. The image variable is :
     </p>
-    <pre class="prettyprint lang-cpp">layout(binding = 3, r32f) coherent uniform image2DArray Depths;</pre>
+    <pre><code class="language-cpp">layout(binding = 3, r32f) coherent uniform image2DArray Depths;</code></pre>
     <p>
         During the store pass, keeping track of the number of fragments in the array will allow us to choose between two methods of insertion : when the array is not full and when the array is full.
     </p>
@@ -204,7 +206,7 @@ void main()
     </p>
     <p>The next free element index is simply the count value before incrementing it.</p>
 
-    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/kbuffer/InsertEmptyVeryLow.gif" alt="Insert Empty Very Low" width="33%" height="auto">
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/kbuffer/InsertEmptyVeryLow.gif" alt="Insert Empty Very Low">
 
     <h4>When the array is full</h4>
     <p>
@@ -213,7 +215,7 @@ void main()
     <p>
         If the new fragment is the new furthest element of the array, we just put it at the first position.
     </p>
-    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/kbuffer/InsertFull.gif" alt="Insert Full" width="33%" height="auto">
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/kbuffer/InsertFull.gif" alt="Insert Full">
 
     <h4>Early culling</h4>
     <p>
@@ -230,8 +232,7 @@ void main()
     <p>
         We use the images <i>Counts</i> and <i>Depths</i> filled in the store pass and we sort the depths from the furthest to the closest. As proposed in the paper, I used an <a href="https://en.wikipedia.org/wiki/Insertion_sort">insertion sort</a>.
     </p>
-    <pre class="prettyprint lang-cpp">
-// Sort the fragment according to their depth.
+    <pre><code class="language-cpp">// Sort the fragment according to their depth.
 void InsertionSort( uint _Count, inout float _Depths[MAX_SIZE] )
 {
     int i = 1;
@@ -251,7 +252,7 @@ void InsertionSort( uint _Count, inout float _Depths[MAX_SIZE] )
 
         i++;
     }
-}</pre>
+}</code></pre>
 
     <p>
         The next step is the blending of the fragments.
@@ -292,7 +293,7 @@ void InsertionSort( uint _Count, inout float _Depths[MAX_SIZE] )
         To store all these datas I use a <i>GL_TEXTURE_1D_ARRAY</i> of format <i>GL_RGBA16F</i> and pixel format <i>GL_RGBA</i>. This image variable is :
     </p>
 
-    <pre class="prettyprint lang-cpp">layout(binding = 4, rgba16f) coherent uniform image1DArray Materials;</pre>
+    <pre><code class="language-cpp">layout(binding = 4, rgba16f) coherent uniform image1DArray Materials;</code></pre>
 
     <p>
         Each pixel of this 1D texture is a RGBA color and there are 3 slices. A pixel can be seen as a 4×3 matrix.
@@ -300,7 +301,7 @@ void InsertionSort( uint _Count, inout float _Depths[MAX_SIZE] )
     <p>
         The first row is the color and the opacity. The second row is the translucent color. And the last row contains a boolean to know if the material has been written to the image, the boolean to determine if the object is translucent or transparent and the maximum distance at which translucent object absorbs all light.
     </p>
-    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/kbuffer/MaterialsTexture.png" alt="Materials Texture" width="50%" height="auto">
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/kbuffer/MaterialsTexture.png" alt="Materials Texture" class="content-img-half">
 
     <p>
         The “Material Set ?” parameter allows us to write the material only once to the image thus saving us from some writing operations.
@@ -320,12 +321,12 @@ void InsertionSort( uint _Count, inout float _Depths[MAX_SIZE] )
     <p>
         The material index links to a pixel in the 1D texture array containing the common datas. I use a <i>GL_TEXTURE_2D_ARRAY</i> of format <i>GL_R8UI</i> and pixel format <i>GL_RED</i>. The image variable is :
     </p>
-    <pre class="prettyprint lang-cpp">layout(binding = 2, r8ui) coherent uniform uimage2DArray MaterialIndices;</pre>
+    <pre><code class="language-cpp">layout(binding = 2, r8ui) coherent uniform uimage2DArray MaterialIndices;</code></pre>
 
     <p>
         For the world position I use a <i>GL_TEXTURE_2D_ARRAY</i> of format <i>GL_RGBA16F</i> and pixel format <i>GL_RGBA</i>. The image variable is :
     </p>
-    <pre class="prettyprint lang-cpp">layout(binding = 5, rgba16f) coherent uniform image2DArray Positions;</pre>
+    <pre><code class="language-cpp">layout(binding = 5, rgba16f) coherent uniform image2DArray Positions;</code></pre>
 
     <p>
         The alpha component of the <i>Positions</i> image will store the boolean telling if the fragment came from a front or back face. The value of this boolean is retrieved from the <i>gl_FrontFacing</i> built-in variable.
@@ -371,7 +372,7 @@ void InsertionSort( uint _Count, inout float _Depths[MAX_SIZE] )
         Here is a little graph to see the behavior of the formulas (with a one channel translucent color) :
     </p>    
 
-    <iframe src="https://www.desmos.com/calculator/zzarsryw08" width="100%" height="500px" style="border: 1px solid #ccc" frameborder="0"></iframe>
+    <iframe src="https://www.desmos.com/calculator/zzarsryw08" title="BeerLambertFigure" width="100%" height="500px" style="border: 1px solid #ccc" frameborder="0"></iframe>
 
     <p>
         The curve represents the amount of the background color we will see according to the distance traveled inside the object. 

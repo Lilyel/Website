@@ -6,14 +6,54 @@
     padding: 25px;
   
     font-family: 'Roboto', sans-serif;
-    font-size: 17px;
+    font-size: 18px;
     font-weight: 500;
     color: #384743;
+}
+
+.content a:link {
+    color: #da82ff;
+    text-decoration: none;
+}
+
+.content a:visited {
+    color: #da82ff;
+    text-decoration: none;
+}
+
+.content a:hover {
+    color: #8b32b1;
+    text-decoration: none;
+}
+
+.content a:active {
+    color: #c78be0;
+    text-decoration: none;
+}
+
+.content img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    height: auto;
+}
+
+.content-img-half {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    height: auto;
 }
 
 @media screen and (max-width: 600px) {
     .content {
         width: 90%;
         padding: 10px;
+    }
+
+    .content-img-half {
+        width: 100%;
     }
 }
