@@ -17,14 +17,17 @@
     text-shadow: 0px 0px 8px black;
 
     font-variation-settings:
-    'FILL' 1,
+    'FILL' 0,
     'wght' 700,
     'GRAD' 0,
     'opsz' 48
   }
   
   #goToTopButton:hover {
-    color: #555; /* Add a dark-grey background on hover */
-    text-shadow: none;
+    font-variation-settings:
+    'FILL' 1,
+    'wght' 700,
+    'GRAD' 0,
+    'opsz' 48
   }
   
