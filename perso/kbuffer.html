@@ -12,12 +12,19 @@
     <link rel="stylesheet" href="./../styles/classes/content.css">
     <link rel="stylesheet" href="./../styles/classes/projectlisting.css">
 
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="./../styles/classes/gototop.css">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/styles/default.min.css">
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
 
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+    <script src="./../js/goToTop.js"></script>
 
     <title>K-Buffer And Translucency</title>  
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Lilyel/Website/main/assets/logos/icon.png">  
@@ -436,6 +443,9 @@ void InsertionSort( uint _Count, inout float _Depths[MAX_SIZE] )
 
 </div>
 
+<button onclick="goToTop()" id="goToTopButton" title="Go to top" class="material-symbols-rounded">
+    arrow_circle_up
+</button>
 
 </body>
 
