@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Capriola">
+    <link rel="stylesheet" href="./../styles/classes/title.css">
+    <link rel="stylesheet" href="./../styles/classes/pillnav.css">
+    <link rel="stylesheet" href="./../styles/classes/body.css">
+    <link rel="stylesheet" href="./../styles/classes/content.css">
+    <link rel="stylesheet" href="./../styles/classes/projectlisting.css">
+
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="./../styles/classes/gototop.css">
+    <script src="./../js/goToTop.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/styles/default.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+    <title>Volume-Preserving Deformation of Terrain in Real-Time</title>  
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Lilyel/Website/main/assets/logos/icon.png">  
+</head>
+
+
+
+<body>
+
+    
+<header>
+    <p class="title">Lilyël</p>
+</header>
+
+<nav>
+    <div class="pill-nav">
+        <a href="./../index.html">Home</a>
+        <a href="#pro">Professional projects</a>
+        <a href="#perso">Personal projects</a>
+        <a href="#school">School projects</a>
+        <a href="#about">About</a>
+    </div>
+</nav>
+
+<div class="content">
+    <h1>Volume-Preserving Deformation of Terrain in Real-Time</h1>
+    
+    <p>
+        In this post I will present my implementation of Jesper Persson’s master thesis : “<a href="http://www.diva-portal.org/smash/get/diva2:1333403/FULLTEXT01.pdf">Volume-Preserving Deformation of Terrain in Real-Time</a>“
+    </p>
+    <p>
+        I implemented it with my little engine in C++ using OpenGL.
+    </p>
+
+    <h2>Algorithm Overview</h2>
+    <p>
+        The idea is to compute the snow height with different objects interacting with it and store the result in a <i>height map</i>. During the ground (a plane mesh) rendering, each vertex will sample the height map at its UV coordinates and add it to its current spatial up coordinates (in my case the Y component).
+    </p>
+    <p>
+        The algorithm presented in the thesis can be separated in several steps :
+    </p>
+    <ul>
+        <li>Initialize the height map</li>
+        <li>Process the objects intersecting with the snow</li>
+        <li>Find the closest free space to transfer the penetrating snow</li>
+        <li>Transfer the penetrating snow to these free spaces</li>
+        <li>Even the transferred snow to avoid big spikes</li>
+        <li>Process the normal map from the snow height map</li>
+        <li>Render the ground with the height map as Y offset (with an optional tessellation)</li>
+    </ul>
+    <p>
+        In the next parts I will detail each step.
+    </p>
+
+    <h2>Initialization</h2>
+    <h3>Camera</h3>
+    <p>
+        To process the snow height we will need a specific camera placed below the the ground oriented upward with an orthographic projection. The objective is to capture the depth of every objects above the ground that intersect with the snow. For that we set the camera viewport to englobe the ground and set a frustum starting at the ground height and ending high enough to contain the snow maximum height.
+    </p>
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/SnowCamera-1024x538.png" alt="Snow Camera" width="100%" height="auto">
+
+    <h3>Initial Height</h3>
+    <p>
+        The height map is a <i>GL_TEXTURE_2D</i> of format <i>GL_R32UI</i> and pixel format <i>GL_RED_INTEGER</i>. 
+    </p>
+    <p>
+        This texture format gives us the possibility to perform atomic operations in the next algorithm steps but has the drawback to need a conversion from the depth floating values to integer values when processing the penetrating objects.
+    </p>
+    <p>
+        To convert the value, the thesis proposes to multiply the floating value by \(10000\). It allows to keep a great precision during computations and have a wide range of possible values. 
+    </p>
+    <p>
+        The height map can be initialized with a fixed value but I chose to use a Perlin noise to do dunes. The frequency, minimum height and maximum height of the dunes can be set by the user. This initialization is done in a compute shader.
+    </p>
+    <p>
+        Here is an example of the ground rendered with the snow initialized with a Perlin noise (the shading will be explained a bit later) :
+    </p>
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/SnowInitialization-1024x791.jpg" alt="Snow Initialization" width="100%" height="auto">
+
+    <p>
+        Note that for the next frames, the initialization step is skipped since we take the result of the previous frame. We can also add a little step of accumulation that randomly add some snow across the texture to simulate the falling snow covering the surface.
+    </p>
+
+
+    <h2>Penetration</h2>
+    <p>
+        Now that the snow height is initialized, we can process the intersecting objects.
+    </p>
+
+    <h3>Depth Pass</h3>
+    <p>
+        First, we do a depth pass with the camera below the ground with the objects interacting with the snow. Here is an example with several objects :
+    </p>
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/DepthPass.png" alt="Depth Pass" width="100%" height="auto">
+
+
+    <h3>Penetration Pass</h3>
+    <p>
+        Once we have the depth map of the objects interacting with the snow, we can process the penetration in a full-screen pass (here, the screen is the camera below the ground viewport).
+    </p>
+    <p>
+        The target of this pass (the <i>penetration texture</i>) is a <i>GL_TEXTURE_2D</i> of format <i>GL_RGBA32I</i> and pixel format <i>GL_RGBA_INTEGER</i>.
+    </p>
+    <p>
+        The objective of this full-screen pass is to determine if the objects intersect the snow or not. For that we retrieve the depth of the object, scale it then convert it to world distance.
+    </p>
+
+    <pre><code class="language-cpp">float FrustumHeight = CameraFar - CameraNear;
+uint DepthValue = uint( texture( DepthTexture, FragUV ).r * HeightMapScale * FrustumHeight );</code></pre>
+
+    <p>
+        Next, we retrieve the snow height from the height map (considered already scaled and as world distance).
+    </p>
+    <pre><code class="language-cpp">uint HeightMapValue = texture( HeightMap, FragUV ).r;</code></pre>
+    <p>
+        We can now compute the amount of penetration :
+    </p> 
+    <pre><code class="language-cpp">uint Penetration = HeightMapValue - min( HeightMapValue, DepthValue );</code></pre>
+
+    <p>
+        With this penetration value we are going to sort the texel in three categories.
+    </p>
+
+    <h4>Penetrating</h4>
+    <p>
+        Texels with a penetration value bigger than \(0\). These points will transfer their snow to the <i>seeds</i> later.
+    </p>
+
+    <h4>Obstacles</h4>
+    <p>
+        Texels with no penetration (equal to \(0\)) but very close to the snow level. These points can not receive snow from penetrating points.
+    </p>
+    <p>
+        To determine if an object is very close to the snow we just need to do the difference between the depth and the snow height and compare it to a threshold value.
+    </p>
+    <pre><code class="language-cpp">abs( int( DepthValue ) - int( HeightMapValue ) ) < OBSTACLE_THRESHOLD</code></pre>
+
+    <p>
+        In my case, I set the threshold to \(10\).
+    </p>
+
+    <h4>Seeds</h4>
+    <p>
+        Texels that are neither penetrating points nor obstacles. These points can receive the snow of penetrating points.
+    </p>
+    <p>
+        The animation below shows a situation with a cube penetrating the snow. First the cube is above the snow, then it comes close, the snow below becomes <i>obstacle</i>. Once the cube begins to push the snow, the intersecting part becomes <i>penetrating</i>. And when the cube stops moving, the snow is no longer pushed but remain in contact with the cube or very close, so it is set back to <i>obstacle</i>. The other parts of the snow that don’t interact with the cube are <i>seeds</i>.
+    </p>
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/Penetration.gif" alt="Penetration" width="100%" height="auto">
+
+    <p>
+        The coordinates of the seeds are written in the red and green component. The category of the texel is written in the blue component (-1 for penetrating points, -2 for obstacles and -3 for seeds) and the penetration value in the alpha one.
+    </p>
+
+    <h2>Closest Free Space</h2>
+    <p>
+        Now we know which texel of the penetration texture can receive snow (seeds) and which must transfer theirs (penetrating). The next step is to move the snow from penetrating texels to the closest seeds.
+    </p>
+    <p>
+        To finding the closest seeds, the thesis proposes to use the <i>jump flooding algorithm</i>.
+    </p>
+    <p>
+        It is possible to do this algorithm on the GPU with successive full-screen passes in a ping-pong fashion
+    </p>
+
+    <h3>Initialization</h3>
+    <p>
+        The two textures used for the ping-pong are the same as the penetration texture : <i>GL_TEXTURE_2D</i> of format <i>GL_RGBA32I</i> and pixel format <i>GL_RGBA_INTEGER</i>.
+    </p>
+    <p>
+        A first pass is needed to read from the penetration texture and fill a first time one of the two ping-pong textures. In this pass, we are going to write in the ping-pong texture :
+    </p>
+    <ul>
+        <li>The fragment \(X\) and \(Y\) coordinates with the built-in variable <i>gl_FragCoord.xy</i> to the red and green channel for the seeds
+        <li>The penetration category in the blue channel
+        <li>The maximum distance possible scaled in the alpha channel. I use the Euclidean distance so it is : <i>length( uvec2( TextureSize, TextureSize ) ) * HeightMapScale</i>
+    </ul>
+    <p>
+        Below, you can see an example of flooding initialization :
+    </p>
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/FloodingInitCoords.png" alt="Flooding Init Coords" width="100%" height="auto">
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/FloodingInitCategories.png" alt="Flooding Init Categories" width="100%" height="auto">
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/FloodingInitDistance.png" alt="Flooding Init Distance" width="100%" height="auto">
+
+    <p>
+        Left : Fragments coordiantes of the seeds.<br/>
+        Middle : Categories (black being seeds, grey obstacles, white penetrating).<br/>
+        Right : Distance (only white since we set everything to the maximum distance).<br/>
+    </p>
+    
+    <h3>Jump Flooding</h3>
+
+</div>
+
+<button type="button" onclick="goToTop()" id="goToTopButton" title="Go to top" class="material-symbols-rounded">
+    arrow_circle_up
+</button>
+
+</body>
+
+</html>
