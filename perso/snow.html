@@ -83,7 +83,7 @@
     <p>
         To process the snow height we will need a specific camera placed below the the ground oriented upward with an orthographic projection. The objective is to capture the depth of every objects above the ground that intersect with the snow. For that we set the camera viewport to englobe the ground and set a frustum starting at the ground height and ending high enough to contain the snow maximum height.
     </p>
-    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/SnowCamera-1024x538.png" alt="Snow Camera" width="100%" height="auto">
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/SnowCamera-1024x538.png" alt="Snow Camera">
 
     <h3>Initial Height</h3>
     <p>
@@ -101,7 +101,7 @@
     <p>
         Here is an example of the ground rendered with the snow initialized with a Perlin noise (the shading will be explained a bit later) :
     </p>
-    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/SnowInitialization-1024x791.jpg" alt="Snow Initialization" width="100%" height="auto">
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/SnowInitialization-1024x791.jpg" alt="Snow Initialization">
 
     <p>
         Note that for the next frames, the initialization step is skipped since we take the result of the previous frame. We can also add a little step of accumulation that randomly add some snow across the texture to simulate the falling snow covering the surface.
@@ -117,7 +117,7 @@
     <p>
         First, we do a depth pass with the camera below the ground with the objects interacting with the snow. Here is an example with several objects :
     </p>
-    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/DepthPass.png" alt="Depth Pass" width="100%" height="auto">
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/DepthPass.png" alt="Depth Pass">
 
 
     <h3>Penetration Pass</h3>
@@ -172,7 +172,7 @@ uint DepthValue = uint( texture( DepthTexture, FragUV ).r * HeightMapScale * Fru
     <p>
         The animation below shows a situation with a cube penetrating the snow. First the cube is above the snow, then it comes close, the snow below becomes <i>obstacle</i>. Once the cube begins to push the snow, the intersecting part becomes <i>penetrating</i>. And when the cube stops moving, the snow is no longer pushed but remain in contact with the cube or very close, so it is set back to <i>obstacle</i>. The other parts of the snow that don’t interact with the cube are <i>seeds</i>.
     </p>
-    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/Penetration.gif" alt="Penetration" width="100%" height="auto">
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/Penetration.gif" alt="Penetration">
 
     <p>
         The coordinates of the seeds are written in the red and green component. The category of the texel is written in the blue component (-1 for penetrating points, -2 for obstacles and -3 for seeds) and the penetration value in the alpha one.
@@ -204,9 +204,9 @@ uint DepthValue = uint( texture( DepthTexture, FragUV ).r * HeightMapScale * Fru
     <p>
         Below, you can see an example of flooding initialization :
     </p>
-    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/FloodingInitCoords.png" alt="Flooding Init Coords" width="100%" height="auto">
-    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/FloodingInitCategories.png" alt="Flooding Init Categories" width="100%" height="auto">
-    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/FloodingInitDistance.png" alt="Flooding Init Distance" width="100%" height="auto">
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/FloodingInitCoords.png" alt="Flooding Init Coords">
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/FloodingInitCategories.png" alt="Flooding Init Categories">
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/FloodingInitDistance.png" alt="Flooding Init Distance">
 
     <p>
         Left : Fragments coordiantes of the seeds.<br/>
@@ -215,7 +215,338 @@ uint DepthValue = uint( texture( DepthTexture, FragUV ).r * HeightMapScale * Fru
     </p>
     
     <h3>Jump Flooding</h3>
+    <p>
+        The <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.101.8568&rep=rep1&type=pdf">flooding algorithm</a> consists in successive passes in which we are going to look in a specific range the \(8\) neighbors of a texel to see if there is a seed available. The range will shrink with each iteration down to \(1\) thus looking at the direct neighbors of the texel in the last iteration.
+    </p>
+    <p>
+        The number of iteration is calculated from the texture size :
+    </p>
+    <p>
+        \[IterationsCount = \log_2(TextureSize)\]
+    </p>
+    <p>
+        The range for each iteration is given by the following formula :
+    </p>
+    <p>
+        \[IterationsRange = \frac{TextureSize}{2^{Iteration+1}}\]
+    </p>
+    <p>
+        For example, for a texture of \(64×64\), we are going to need \(6\) iterations, it gives these ranges for the iterations :
+    </p>
+    <table>
+        <tr>
+          <th>Iteration</th>
+          <td>0</td>
+          <td>1</td>
+          <td>2</td>
+          <td>3</td>
+          <td>4</td>
+          <td>5</td>
+        </tr>
+        <tr>
+            <th>Denominator</th>
+            <td>2</td>
+            <td>4</td>
+            <td>8</td>
+            <td>16</td>
+            <td>32</td>
+            <td>64</td>
+        </tr>
+        <tr>
+            <th>Range</th>
+            <td>32</td>
+            <td>16</td>
+            <td>8</td>
+            <td>4</td>
+            <td>2</td>
+            <td>1</td>
+        </tr>
+      </table>
+      <p>
+        Here is a little animation to illustrate the process :
+      </p>
+      <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/Flooding.gif" alt="Flooding">
 
+      <p>
+        Each iteration uses the result of the previous one to examining the neighbors, the first iteration writes into the second ping-pong texture and uses the first one setup in the initialization.
+      </p>
+      <p>
+        During an iteration, we process only the penetrating texels. We look at the stored coordinates of their neighbors and keep the closest (in my case, I use the Euclidean distance), if the distance to these coordinates is bigger than the one currently stored in the texel we ignore it. If there is a new closest result, we write the coordinates in the red and green channels and the new distance to the alpha channel of the texel.
+      </p>
+      <p>
+        After all the iterations, the penetrating texels should contain the coordinates and the distance to the closest seeds.
+      </p>
+      <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/FloodingIterations.gif" alt="Flooding Iterations">
+
+
+      <h3>Penetrating Snow Transfer</h3>
+      <p>
+        The next step is to move the snow of the penetrating texels onto the seeds previously found.
+      </p>
+      <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/Displacement.png" alt="Displacement">
+
+      <p>
+        First, we copy the height map into another texture of the same format (<i>GL_R32UI</i>, <i>GL_RED_INTEGER</i>).
+      </p>
+      <p>
+        Then, in a compute shader, we look at each <i>penetrating</i> texel (from the <i>penetration texture</i>) and we take the coordinates of the closest seed from the texture result of the jump flooding. Using the atomic function <i>imageAtomicAdd</i> we remove (from the current texel) the penetration value from the height map copy texture.
+      </p>
+      <pre><code class="language-cpp">imageAtomicAdd( Target, CurrentCoord, uint( -CurrentPeneration ) );</code></pre>
+
+      <p>
+        When moving the snow, we can add the <i>compression</i> user parameter that will determine how much the snow will compress itself instead of being moved.
+      </p>
+      <pre><code class="language-cpp">float Displaced = float( CurrentPeneration ) * ( 1.0 - SnowCompression );</code></pre>
+      
+      <p>
+        We can move all the snow to the seed coordinates using the same atomic function but the thesis proposes to divide the snow among several texels in the direction of the seed. It will reduce the size of the spikes to even in the next step.
+      </p>
+      <pre><code class="language-cpp">vec2 Direction = normalize( ClosestSeed - vec2( CurrentCoord ) );
+uint Range = uint( ceil( CurrentPeneration / ( HeightMapScale / 10.0 ) ) );
+Displaced /= Range;
+        
+for( uint i = 0u; i < Range; i++ )
+    imageAtomicAdd( Target, ivec2( ClosestSeed + Direction * i ), uint( Displaced ) );</code></pre>
+      
+        <p>
+            I followed the thesis and set the range to
+        </p>
+        <p>
+            \[ \frac{CurrentPeneration}{1000}\]
+        </p>
+        <p>
+            Finding a neighborhood to distribute the snow to move without following a single direction (maybe with a cone) could be a lead to further improvements.
+        </p>
+        <p>
+            Nonetheless, the distribution of the snow among several texels greatly reduce the number of evening iterations in the next step needed to achieve a smooth result.
+        </p>
+        <p>
+            Below, you can see the version with only one seed used to move the snow at the left and the version with several in the direction to the closest at the right.
+        </p>
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/SnowDisplacementOneNeighbors-1024x788.png" alt="SnowDisplacementOneNeighbors">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/SnowDisplacementSeveralNeighbors-1024x789.png" alt="SnowDisplacementSeveralNeighbors">
+
+
+        <h3>Evening</h3>
+        <p>
+            Once the snow is moved, we still have some spikes. To attenuate this effect we are going to distribute some of the snow of the spikes to their neighbors. The thesis propose to use an <a href="http://graphics.berkeley.edu/papers/Sumner-ASM-1999-03/Sumner-ASM-1999-03.pdf">erosion</a> algorithm. The idea is to take a seed texel, sum the difference of height with its \(8\) direct neighbors then move onto these neighbors a part of this sum.
+        </p>
+        <p>
+            Each neighbor will receive :
+        </p>
+        <p>
+            \[\Delta h_a = \frac{\sum h_{ij}-h_{kl}}{n}\]
+        </p>
+        <p>
+            Where \(h_{ij}\) is the current texel height, \(h_{kl}\) is the neighbor height and \(n\) is the count of neighbors taken into account. \(\Delta h_a\) is the amount of snow added to the neighbor \(kl\).
+        </p>
+        <p>
+            To control the aesthetic of the snow distribution, a slope control user parameter is introduced. The objective is to give the possibility to the user to directly give the angle of the maximum slope he wants.
+        </p>
+        <p>
+            We first need to know the conversion from a distance between two texels of the height map to a world distance. In my case, I can assume that the texture cover exactly my plane and my plane is square (so are the textures), so the conversion factor from texture to world distance is given by :
+        </p>
+        <p>
+            \[ConversionFactor = \frac{PlaneWidth}{TextureWidth}\]
+        </p>
+        <p>
+            To convert a texture distance I will just need to multiply it by this factor to get the world distance.
+        </p>
+        <p>
+            To find the slope angle between two texels, we start from the \(\tan\) function :
+        </p>
+        <p>
+            \[ \tan(\alpha) = \frac{Opposite}{Adjacent}\]
+        </p>
+        <p>
+            The \(Opposite\) value is the height difference between the current texel height and the neighbor height. The \(Adjacent\) value is the distance between the current texel and its neighbor converted to world distance. Since the height has been scaled to be compatible with integer textures, we must scale the \(Adjacent\) value (or unscale the \(Opposite\)).
+        </p>
+        <p>
+            We can find this relation :
+        </p>
+        <p>
+            \[\alpha = \tan^{-1}(\frac{Opposite}{Adjacent})\]
+        </p>
+        <p>
+            \(\alpha\) is the slope angle between \(]-\frac{\pi}{2},\frac{\pi}{2}[\). To simplify the angle comparison we are going to only test a positive user angle, it yields to :
+        </p>
+        <p>
+            \[\alpha = \Bigg|\tan^{-1}(\frac{Opposite}{Adjacent})\Bigg|\]
+        </p>
+        <p>
+            If the angle value is lower than the user angle we can skip the neighbor. Otherwise, we can continue to move snow onto the neighbors to even the slope while the angle are too steep.
+        </p>
+        <p>
+            We can do this algorithm in a compute shader and use the atomic function <i>imageAtomicAdd</i> to modify the texture (we still work on the height map copy setup in the displacement step).
+        </p>
+        <p>
+            This method needs several iterations to give a satisfying result, the user can choose the number of iterations per frame he wants. The erosion may need several frames to finish if there are not enough iterations. Putting a lot of iterations can also heavily affect the performances, so the user must find a satisfying in between.
+        </p>
+        <p>
+            Here is an example with \(5\) iterations, the whole texture on the left and a close up on the center area on the right
+        </p>
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/EveningIterations.gif" alt="EveningIterations">
+
+        <p>
+            To improve a bit the convergence speed to a visually satisfying result, I added a constrain on the evening : the sum of difference \(\Delta h_a\) is clamped by the maximum difference \(\max_{k,l}(h_{ij}–h_{kl})\). This means that the current texel will never become lower than its highest neighbor.
+        </p>
+        <p>
+            Once the iterations are done, we copy back the working texture to the height map.
+        </p>
+        <p>
+            You can see bellow the result after the evening pass.
+        </p>
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/Evening.png" alt="Evening">
+
+        <h3>Normal Map</h3>
+        <p>
+            To shade the snow we are going to need the normal map of the surface. We use a <i>GL_TEXTURE_2D</i> of format <i>GL_RGBA32F</i> and pixel format <i>GL_RGBA</i>.
+        </p>
+        <p>
+            In a compute shader, for each texel, we take its \(4\) neighbors and process the orthogonal vector of the plane made with the neighbors :
+        </p>
+        <p>
+            \[\vec{Normal}=\hat{Horizontal} \times \hat{Vertical}\]
+        </p>
+        <p>
+            The \(\vec{Horizontal}\) vector is described in yellow in the image bellow and the \(\vec{Vertical}\) one in green.
+        </p>
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/NormalProcessing.png" alt="NormalProcessing">
+        
+        <p>
+            To comply with the normal map format used in the fragment shader later, we convert immediately the resulting normal before writing it in the texture :
+        </p>
+        <p>
+            \[\vec{Normal}=(\hat{Horizontal} \times \hat{Vertical}) * 0.5 + \begin{bmatrix} 0.5 \cr 0.5 \cr 0.5 \end{bmatrix}\]
+        </p>
+        <p>
+            The thesis propose to apply a blur to the normal map to soften it. I use the separated gaussian blur explained on the <a href="https://learnopengl.com/Advanced-Lighting/Bloom">LearnOpenGL website</a>.
+        </p>
+        <p>
+            The blur of the normal map has several parameters that can be set by the user :
+        </p>
+        <ul>
+            <li>The number of iterations</li>
+            <li>The standard deviation</li>
+            <li>The radius of the kernel</li>
+        </ul>
+        <p>
+            Below, you can see the result of the normal map before the blur on the left and after the blur on the right.
+        </p>
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/NormalMap-150x150.png" alt="NormalMap">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/NormalMapBlurred-150x150.png" alt="NormalMapBlurred">
+        
+        <h3>Plane Rendering</h3>
+        <h4>Height Map Conversion</h4>
+        <p>
+            To use linear filtering on the height map texture, we need to convert it to a floating value format. 
+        </p>
+        <p>
+            A new texture is created with the same size as the height map but the format will be <i>GL_R32F</i> and pixel format <i>GL_RED</i>. Then in a compute shader we will copy the height value of the integer texture into the floating value texture.
+        </p>
+        <p>
+            We must remove the scale from the integer value before writing it, this can be done by dividing the height by the scale previously applied.
+        </p>
+        <p>
+            As an option, I added the possibility to apply a constrain of difference between the previous value stored in the floating value texture and the integer texture. The user can set a maximum angle, if the difference between the old and new height is bigger than this angle then the difference is clamped to the maximum possible value. The process is quite similar to the evening pass. It is a additional option to avoid the apparition of big snow spikes in the cases of big volume of snow moved. The drawback of this solution is the potential visual delay of the snow evening if the constrain angle is too small. Note that it can also be artistically nice for materials like sand.
+        </p>
+        <p>
+            Below, you can see the result of the constrain with different angle applied.
+        </p>
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/SlopeFrameConstrain.gif" alt="SlopeFrameConstrain">
+        
+        <h4>Tessellation</h4>
+        <p>
+            The height map is now usable to displace the plane vertices, in my case I consider the plane in world space and apply directly the height map value to the Y coordinate of the vertices. One option is to choose a fixed subdivision level for the plane then move the vertices in the vertex shader. Another option uses the tessellation shader to dynamically subdivide the plane according to some criteria and move the subdivision resulting points with the height map.
+        </p>
+        <p>
+            The height map is now usable to displace the plane vertices, in my case I consider the plane in world space and apply directly the height map value to the Y coordinate of the vertices. One option is to choose a fixed subdivision level for the plane then move the vertices in the vertex shader. Another option uses the tessellation shader to dynamically subdivide the plane according to some criteria and move the subdivision resulting points with the height map.
+        </p>
+        <p>
+            You can see bellow the result of the tessellation solution with a minimum tessellation of \(1\) and maximum of \(8\) and the distance range of \([3,5]\).
+        </p>
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/Tessellation.gif" alt="Tessellation">
+        
+        <h4>Shading</h4>
+        <p>
+            The shading wasn’t the focus of this implementation so I tried to find a simple tutorial for snow rendering and ended up with the pretty cool <a href="https://www.alanzucconi.com/2019/10/08/journey-sand-shader-1/">Journey’s Sand Shader tutorial</a> of Alan Zucconi. It may not be designed for snow but it still gives a nice result for this demo.
+        </p>
+        <p>
+            I only skipped the sand ripples, tweaked a bit the glitters to make some of them slightly twinkle and added a bloom effect.
+        </p>
+        <p>
+            In the fragment shader, before processing the color with the tutorial, I added some normal processing. The idea was to simulate the displacement steps of the Jarrod Hasenjäger’s <a href="https://www.artstation.com/artwork/J2wBz">snow study</a> by only tweaking the fragment normal.
+        </p>
+        <p>
+            First, we sample the normal map previously computed.
+        </p>
+        <p>
+            Then, we process a normal from a 2D simplex noise parameterized with the fragment UV. The frequency of this noise must not be too low, it corresponds to the “basic displacement” of the snow study, the frequency can be set by the user. This normal is weighted by an user parameter and added to the sampled normal.
+        </p>
+        <p>
+            Then we process another normal from another 2D simplex noise parameterized with the fragment UV but with a higher frequency, it corresponds to the “detailed displacement” step of the snow study. This normal is weighted by another user parameter and the frequency can also be set by the user. This new normal is also added to the previous sum.
+        </p>
+        <p>
+            \[\vec{N}=\vec{N}_{Sampled} + \vec{N}_{LowFrequency} * Weight_{LowFrequency} + \vec{N}_{HighFrequency} * Weight_{HighFrequency}\]
+        </p>
+        <p>
+            Finally, the sum is normalized and the result is used as the new fragment normal.
+        </p>
+        <p>
+            Below, you can see the result of the different normals. On the top left, the snow with just the sampled normal, on the top right, with the low frequency normal, on the bottom left, with the high frequency normal and on the bottom right the three normals combined.
+        </p>
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/NormalNoise_None-1024x790.png" alt="NormalNoise_None">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/NormalNoise_Chunk-1024x787.png" alt="NormalNoise_Chunk">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/NormalNoise_Grain-1024x789.png" alt="NormalNoise_Grain">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/NormalNoise_ChunkGrain-1024x789.png" alt="NormalNoise_ChunkGrain">
+        
+
+        <h2>Demo</h2>
+        <iframe title="DemoVideo" src="https://player.vimeo.com/video/439686711?h=d2df2ae336" width="100%" height="auto" frameborder="0" allowfullscreen></iframe>
+
+        <p>
+            You can find a demo of this implementation on my <a href="https://github.com/Lilyel/SnowTerrainDeformation">GitHub</a>.
+        </p>
+        <p>
+            A downloadable executable can be found in the <a href="https://github.com/Lilyel/SnowTerrainDeformation/releases/tag/1.0">releases</a> of the repository.
+        </p>
+
+
+        <h2>References and useful links</h2>
+        <ul>
+            <li>Volume-Preserving Deformation of Terrain in Real-Time. Jesper Persson : <a href="http://www.diva-portal.org/smash/get/diva2:1333403/FULLTEXT01.pdf">PDF</a>, <a href="https://vimeo.com/341532858">Video</a>.</li>
+            <li><a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.101.8568&rep=rep1&type=pdf">Jump Flooding in GPU with Applications to Voronoi Diagram and Distance Transform.</a> Guodong Rong, Tiow-Seng Tan.</li>
+            <li><a href="http://graphics.berkeley.edu/papers/Sumner-ASM-1999-03/Sumner-ASM-1999-03.pdf">Animating Sand, Mud, and Snow.</a>Robert W. Sumner, James F. O’Brien, Jessica K. Hodgins.</li>
+            <li><a href="https://www.alanzucconi.com/2019/10/08/journey-sand-shader-1/">Journey’s sand shader tutorial</a> of Alan Zucconi.</li>
+            <li><a href="https://www.artstation.com/artwork/J2wBz">Snow study</a> of Jarrod Hasenjäger.</li>
+            <li><a href="https://learnopengl.com/Advanced-Lighting/Bloom">LearnOpenGL Bloom tutorial.</a></li>
+        </ul>
+
+        <h3>About Noise</h3>
+        <ul>
+            <li><a href="https://www.ronja-tutorials.com/2018/09/02/white-noise.html">Tutorial on white noise.</a></li>
+            <li><a href="https://gist.github.com/patriciogonzalezvivo/670c22f3966e662d2f83">Noise functions.</a></li>
+            <li><a href="https://www.shadertoy.com/view/Msf3WH">2D Simplex noise.</a></li>
+            <li><a href="https://thebookofshaders.com/11/">The Book Of Shaders on noises.</a></li>
+            <li>Red Blob Games <a href="https://www.redblobgames.com/articles/noise/introduction.html">noise</a> and <a href="https://www.redblobgames.com/maps/terrain-from-noise/">terrain from noise</a> tutorials.</li>
+        </ul>
+
+        <h3>Other snow techniques</h3>
+        <ul>
+            <li><a href="https://cdn.gearsofwar.com/thecoalition/publications/The%20Visual%20Technology%20of%20Gears%205%20V2%20PDF%20Version.pdf">The Visual Technology of Gears 5</a> (Slides 24 & 25 ).</li>
+            <li><a href="https://www.slideshare.net/colinbb/gdc2014-deformable-snow-rendering-in-batman-arkham-origins">Deformable Snow Rendering in Batman: Arkham Origins.</a></li>
+            <li><a href="https://www.slideshare.net/EidosMontreal/labs-siggraph15trxno-videos">Rendering Techniques in Rise of the Tomb Raider</a> (Slides 94-125).</li>
+            <li><a href="https://www.gdcvault.com/play/1015655/The-Tricks-Up-Our-Sleeves">The Tricks Up Our Sleeves: A Walkthrough of the Latest Techniques Behind FX of Uncharted 3: Drake’s Deception.</a></li>
+        </ul>
+
+        <h3>Snow References</h3>
+        <ul>
+            <li><a href="https://www.youtube.com/watch?v=SN7gtS1tv30">Red dead Redemption 2 “SNOW PHYSICS ” VS God Of War VS Horizon Zero Dawn.</a></li>
+            <li><a href="https://www.youtube.com/watch?v=bW0MonV6yqU">Red Dead Redemption 2 Snow Deformation.</a></li>
+            <li><a href="https://www.youtube.com/watch?v=PKyC9rwFBEA">LAST OF US PART 2 “SNOW COMPARISON” VS Red Dead Redemption 2 VS Witcher 3 VS AC Odyssey.</a></li>
+            <li><a href="https://www.reddit.com/r/Unity3D/comments/dnzkr3/wip_my_snow_shader_with_real_time_snow/">Unity snow shader with accumulation.</a></li>
+            <li><a href="https://www.artstation.com/artwork/ybwmZ5">Example of Snow shading in Maya rendered with Arnold.</a></li>
+        </ul>
 </div>
 
 <button type="button" onclick="goToTop()" id="goToTopButton" title="Go to top" class="material-symbols-rounded">
