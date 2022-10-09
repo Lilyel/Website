@@ -1,0 +1,16 @@
+.snowtable {
+    table-layout: auto;
+    text-align: center;
+    margin: auto;
+    border-collapse: collapse;
+}
+
+.snowtable td {
+    padding: 10px;
+
+    border-bottom: 1px solid #ddd;
+}
+.snowtable th {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
