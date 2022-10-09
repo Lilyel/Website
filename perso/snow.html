@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="./../styles/classes/body.css">
     <link rel="stylesheet" href="./../styles/classes/content.css">
     <link rel="stylesheet" href="./../styles/classes/projectlisting.css">
+    <link rel="stylesheet" href="./../styles/classes/imagegrid.css">
 
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -204,10 +205,11 @@ uint DepthValue = uint( texture( DepthTexture, FragUV ).r * HeightMapScale * Fru
     <p>
         Below, you can see an example of flooding initialization :
     </p>
-    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/FloodingInitCoords.png" alt="Flooding Init Coords">
-    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/FloodingInitCategories.png" alt="Flooding Init Categories">
-    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/FloodingInitDistance.png" alt="Flooding Init Distance">
-
+    <div class="imagegrid">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/FloodingInitCoords.png" alt="Flooding Init Coords" class="imagegrid-item">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/FloodingInitCategories.png" alt="Flooding Init Categories" class="imagegrid-item">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/FloodingInitDistance.png" alt="Flooding Init Distance" class="imagegrid-item">
+    </div>
     <p>
         Left : Fragments coordiantes of the seeds.<br/>
         Middle : Categories (black being seeds, grey obstacles, white penetrating).<br/>
@@ -323,9 +325,10 @@ for( uint i = 0u; i < Range; i++ )
         <p>
             Below, you can see the version with only one seed used to move the snow at the left and the version with several in the direction to the closest at the right.
         </p>
-        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/SnowDisplacementOneNeighbors-1024x788.png" alt="SnowDisplacementOneNeighbors">
-        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/SnowDisplacementSeveralNeighbors-1024x789.png" alt="SnowDisplacementSeveralNeighbors">
-
+        <div class="imagegrid">
+            <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/SnowDisplacementOneNeighbors-1024x788.png" alt="SnowDisplacementOneNeighbors" class="imagegrid-item">
+            <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/SnowDisplacementSeveralNeighbors-1024x789.png" alt="SnowDisplacementSeveralNeighbors" class="imagegrid-item">
+        </div>
 
         <h3>Evening</h3>
         <p>
@@ -433,9 +436,11 @@ for( uint i = 0u; i < Range; i++ )
         <p>
             Below, you can see the result of the normal map before the blur on the left and after the blur on the right.
         </p>
-        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/NormalMap-150x150.png" alt="NormalMap">
-        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/NormalMapBlurred-150x150.png" alt="NormalMapBlurred">
-        
+        <div class="imagegrid">
+            <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/NormalMap-150x150.png" alt="NormalMap" class="imagegrid-item">
+            <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/NormalMapBlurred-150x150.png" alt="NormalMapBlurred" class="imagegrid-item">
+        </div>
+
         <h3>Plane Rendering</h3>
         <h4>Height Map Conversion</h4>
         <p>
@@ -493,13 +498,14 @@ for( uint i = 0u; i < Range; i++ )
             Finally, the sum is normalized and the result is used as the new fragment normal.
         </p>
         <p>
-            Below, you can see the result of the different normals. On the top left, the snow with just the sampled normal, on the top right, with the low frequency normal, on the bottom left, with the high frequency normal and on the bottom right the three normals combined.
+            Below, you can see the result of the different normals. The first picture, the snow with just the sampled normal, on the second, with the low frequency normal, on the third, with the high frequency normal and on the fourth the three normals combined.
         </p>
-        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/NormalNoise_None-1024x790.png" alt="NormalNoise_None">
-        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/NormalNoise_Chunk-1024x787.png" alt="NormalNoise_Chunk">
-        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/NormalNoise_Grain-1024x789.png" alt="NormalNoise_Grain">
-        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/NormalNoise_ChunkGrain-1024x789.png" alt="NormalNoise_ChunkGrain">
-        
+        <div class="imagegrid">
+            <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/NormalNoise_None-1024x790.png" alt="NormalNoise_None" class="imagegrid-item">
+            <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/NormalNoise_Chunk-1024x787.png" alt="NormalNoise_Chunk" class="imagegrid-item">
+            <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/NormalNoise_Grain-1024x789.png" alt="NormalNoise_Grain" class="imagegrid-item">
+            <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/NormalNoise_ChunkGrain-1024x789.png" alt="NormalNoise_ChunkGrain" class="imagegrid-item">
+        </div>
 
         <h2>Demo</h2>
         <iframe title="DemoVideo" src="https://player.vimeo.com/video/439686711?h=d2df2ae336" width="100%" height="auto" frameborder="0" allowfullscreen></iframe>

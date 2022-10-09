@@ -1,0 +1,13 @@
+.imagegrid {
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax(300px, 1fr) );
+    grid-gap: 20px;
+  }
+  
+  /* Create four equal columns that sits next to each other */
+  .imagegrid-item {
+    max-width: 100%;
+    height: auto;
+    margin: auto;
+  }
+  
