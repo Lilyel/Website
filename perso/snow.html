@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Capriola">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab">
     <link rel="stylesheet" href="./../styles/classes/title.css">
     <link rel="stylesheet" href="./../styles/classes/pillnav.css">
     <link rel="stylesheet" href="./../styles/classes/body.css">
@@ -402,6 +403,7 @@ for( uint i = 0u; i < Range; i++ )
         </p>
         <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/Evening.png" alt="Evening">
 
+        <h2>Plane Rendering</h2>
         <h3>Normal Map</h3>
         <p>
             To shade the snow we are going to need the normal map of the surface. We use a <i>GL_TEXTURE_2D</i> of format <i>GL_RGBA32F</i> and pixel format <i>GL_RGBA</i>.
@@ -442,8 +444,8 @@ for( uint i = 0u; i < Range; i++ )
             <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/NormalMapBlurred.png" alt="NormalMapBlurred" class="imagegrid-item">
         </div>
 
-        <h3>Plane Rendering</h3>
-        <h4>Height Map Conversion</h4>
+        
+        <h3>Height Map Conversion</h3>
         <p>
             To use linear filtering on the height map texture, we need to convert it to a floating value format. 
         </p>
@@ -461,7 +463,7 @@ for( uint i = 0u; i < Range; i++ )
         </p>
         <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/SlopeFrameConstrain.gif" alt="SlopeFrameConstrain">
         
-        <h4>Tessellation</h4>
+        <h3>Tessellation</h3>
         <p>
             The height map is now usable to displace the plane vertices, in my case I consider the plane in world space and apply directly the height map value to the Y coordinate of the vertices. One option is to choose a fixed subdivision level for the plane then move the vertices in the vertex shader. Another option uses the tessellation shader to dynamically subdivide the plane according to some criteria and move the subdivision resulting points with the height map.
         </p>
@@ -473,7 +475,7 @@ for( uint i = 0u; i < Range; i++ )
         </p>
         <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/snow/Tessellation.gif" alt="Tessellation">
         
-        <h4>Shading</h4>
+        <h3>Shading</h3>
         <p>
             The shading wasn’t the focus of this implementation so I tried to find a simple tutorial for snow rendering and ended up with the pretty cool <a href="https://www.alanzucconi.com/2019/10/08/journey-sand-shader-1/">Journey’s Sand Shader tutorial</a> of Alan Zucconi. It may not be designed for snow but it still gives a nice result for this demo.
         </p>
