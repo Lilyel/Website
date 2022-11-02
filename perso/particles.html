@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Capriola">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab">
+    <link rel="stylesheet" href="./../styles/classes/title.css">
+    <link rel="stylesheet" href="./../styles/classes/pillnav.css">
+    <link rel="stylesheet" href="./../styles/classes/body.css">
+    <link rel="stylesheet" href="./../styles/classes/content.css">
+    <link rel="stylesheet" href="./../styles/classes/projectlisting.css">
+    <link rel="stylesheet" href="./../styles/classes/imagegrid.css">
+    <link rel="stylesheet" href="./../styles/classes/snowtable.css">
+
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="./../styles/classes/gototop.css">
+    <script src="./../js/goToTop.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/styles/default.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+    <title>Particles</title>  
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Lilyel/Website/main/assets/logos/icon.png">  
+</head>
+
+
+
+<body>
+
+    
+<header>
+    <p class="title">Lilyël</p>
+</header>
+
+<nav>
+    <div class="pill-nav">
+        <a href="./../index.html">Home</a>
+        <a href="#pro">Professional projects</a>
+        <a href="#perso">Personal projects</a>
+        <a href="#school">School projects</a>
+        <a href="#about">About</a>
+    </div>
+</nav>
+
+<div class="content">
+    <h1>Particles</h1>
+    <p>
+        Particle Sample is a little program which presents some math functions.
+    </p>
+    <p>
+        I did this sample with <a href="https://www.sfml-dev.org/">SFML</a> ( Simple and Fast Multimedia Library ), C++ and Visual Studio 2012. It was during my second year at <a href="https://www.creajeux.fr/">Creajeux</a>, I worked on it on my free time. At the beginning, I just wanted to try to do a <a href="http://sfml-dev.org/tutorials/2.0/graphics-vertex-array.php">SFML tutorial</a> about particles.
+    </p>
+    <p>
+        After that, I thought it will be nice to see the emitter make beautiful moves. So I searched some math functions describing interesting curves.
+    </p>
+    <p>
+        For the line mode, it was only a debug mode for me to see curves clearly but I chose to keep it because I found interesting to see the curves without having many particles around it so I let the user choose the mode between particles and line.
+    </p>
+    <p>
+        There is some Fourier Series applications but I don’t have any skills in Signal Processing, I just pick up definitions on Wikipedia pages of the different waveforms. ( <a href="http://en.wikipedia.org/wiki/Triangle_wave">Triangle</a>, <a href="http://en.wikipedia.org/wiki/Square_wave">Square</a> and <a href="http://en.wikipedia.org/wiki/Square_wave">Saw-tooth</a> ).
+    </p>
+    <p>
+        Also, I made a “Draw” mode, with mouse path and line mode, you can click with the left button of the mouse to make some lines. I made this mode because when I implemented line mode with the mouse there was just a moving point so I have chosen to make a little funnier mode.
+    </p>
+
+    <div class="imagegrid">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/particles/ParticleMouse.PNG" alt="Mouse pattern with particle mode" class="imagegrid-item">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/particles/ParticleRosace.PNG" alt="Rosace pattern with particle mode" class="imagegrid-item">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/particles/LineInterference.PNG" alt="Interference pattern with line mode" class="imagegrid-item">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/particles/LineMouse.PNG" alt="Mouse pattern with line mode" class="imagegrid-item">
+    </div>
+
+    <a href="https://www.dropbox.com/s/s7x4m0bzeb2e5jm/ParticleSample.zip?dl=0">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/particles/DonwloadSelect.gif" alt="Download" width="164px" height="164px">
+    </a>
+
+</div>
+
+<button type="button" onclick="goToTop()" id="goToTopButton" title="Go to top" class="material-symbols-rounded">
+    arrow_circle_up
+</button>
+
+
+</body>
+
+</html>
