@@ -1,0 +1,335 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Capriola">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab">
+    <link rel="stylesheet" href="./../styles/classes/title.css">
+    <link rel="stylesheet" href="./../styles/classes/pillnav.css">
+    <link rel="stylesheet" href="./../styles/classes/body.css">
+    <link rel="stylesheet" href="./../styles/classes/content.css">
+    <link rel="stylesheet" href="./../styles/classes/projectlisting.css">
+    <link rel="stylesheet" href="./../styles/classes/imagegrid.css">
+    <link rel="stylesheet" href="./../styles/classes/snowtable.css">
+
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="./../styles/classes/gototop.css">
+    <script src="./../js/goToTop.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/styles/default.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+    <title>Audiovisual Project</title>  
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Lilyel/Website/main/assets/logos/icon.png">  
+</head>
+
+
+
+<body>
+
+    
+<header>
+    <p class="title">Lilyël</p>
+</header>
+
+<nav>
+    <div class="pill-nav">
+        <a href="./../index.html">Home</a>
+        <a href="#pro">Professional projects</a>
+        <a href="./../perso/index.html">Personal projects</a>
+        <a href="./index.html">School projects</a>
+        <a href="#about">About</a>
+    </div>
+</nav>
+
+<div class="content">
+    <h1>Audiovisual Project</h1>
+    
+    <h2>Project Description</h2>
+    <p>
+        This project was a practical work for the University during my second year of my master degree.
+    </p>
+    <p>
+        The objective of this exercise was to implement the algorithm of Lukas & Kanade to track objects in a short video, attach a sound to them and spatialize these sounds according the objects positions.
+    </p>
+    <p>        
+        There were no restrictions for the language or library, except OpenAL for the audio part. So I chose do to the project in C++ with OpenCV (3.4).
+    </p>
+    <p>
+        We got one week to do this assignment.
+    </p>
+    
+    <h2>Images Extraction</h2>
+    <p>
+        The first step was to transform a short video into a set of pictures.
+    </p>
+    <p>
+        To do that, I first load the video with the OpenCV functionality <i>VideoCapture</i>. Then for each frame of the video, I save it to a <i>jpeg</i> file. I also save a blurred version of this frame as a <i>jpeg</i> file too.
+    </p>
+    <p>
+        The blurred version will be useful for noisy images. This blurred is applied using the <i>GaussianBlur</i> function of OpenCV. The image is blurred using a convolution, so the size of the kernel and the standard deviation can be set by the user. The more the video is noised, the bigger the size of the kernel or higher the standard deviation must be.
+    </p>
+    
+    <div class="imagegrid">
+        <figure class="imagegrid-item">
+            <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/audiovisualproject/Sheep0.jpeg" alt="Sheep0" >
+            <figcaption>Image of sheeps without noise</figcaption>
+        </figure>
+        <figure class="imagegrid-item">
+            <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/audiovisualproject/SheepNoise0.jpeg" alt="SheepNoise0" >
+            <figcaption>Image of sheeps noised</figcaption>
+        </figure>
+        <figure class="imagegrid-item">
+            <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/audiovisualproject/SheepNoise0_blurred.jpeg" alt="SheepNoise0_blurred" >
+            <figcaption>Image of sheeps blurred</figcaption>
+        </figure>
+    </div>
+
+    <p>
+        If the video is not noised (or not a lot), the blurred version is not necessary to get a nice final result.
+    </p>
+    
+    <h2>Optical Flow</h2>
+    <p>
+        To process the optical flow, I used the <i>Lukas & Kanade</i> algorithm. I could have use the one proposed by OpenCV, but since it was the first time I work with this algorithm, I preferred to implement it myself. However, the final results could have been better with the OpenCV function.
+    </p>
+    <p>
+        Here the <i>Lukas & Kanade</i> equation for optical flow at a time \(t\) :
+    </p>
+    <p>
+        \[\vec{v}=\operatorname{argmin}_{\delta_x, \delta_y}{(\sum_{(x,y) \in W}{(I_x(x,y)*\delta_x + I_y(x,y)*\delta_y + I_t(x,y))^2})}\]
+    </p>    
+    <p>
+        Where \(W\) is a window around the pixel on the picture. For the few videos I worked on, a window of \(9*9\) pixels seems to work fine.
+    </p>
+    <p>
+        \(\vec{v}\) is the direction of the optical flow on the current pixel. It represents the movement at this pixel and at this time \(t\) in the video.
+    </p>
+    <p>
+        We will use this equation for every pixel in every frame of the video.
+    </p>
+    <p>
+        The objective is to find \(\delta_x\) and \(\delta_y\) that fit the best. They will be the components of the vector \(\vec{v}\) :
+    </p>
+    <p>
+        \[\vec{v}=\begin{bmatrix}\delta_x \\ \delta_y\end{bmatrix}\]
+    </p>
+    <p>
+        I begin with the spatial derivative on the \(x\) axis : \(I_x\). To achieve that, I use the function <i>filter2D</i> of OpenCV with the following kernel :
+    </p>
+    <p>
+        \[\begin{bmatrix}-1 & 0 & 1\end{bmatrix}\]
+    </p>
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/audiovisualproject/Ix.jpeg" alt="Ix">
+    
+    <p>
+        Then, I do the same for the spatial derivative on the \(y\) axis : \(I_y\), using the following kernel :
+    </p>
+    <p>
+        \[\begin{bmatrix}-1 \\ 0 \\ 1\end{bmatrix}\]
+    </p>
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/audiovisualproject/Iy.jpeg" alt="Iy">
+    
+    <p>
+        To get the temporal derivative \(I_t\), I just subtract the frame at time \(t+1\) with the frame at time \(t\).
+    </p>
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/audiovisualproject/It.jpeg" alt="It">
+    
+    <p>
+        To find \(\vec{v}\), I put the <i>Lukas & Kanade</i> equation in matrix form :
+    </p>
+    <p>
+        \[H*\vec{v}=b\]
+    </p>
+    <p>
+        with :
+    </p>
+    <p>
+        \[H=\begin{bmatrix}\sum_{(x,y) \in W}{I_x(x,y)^2} & \sum_{(x,y) \in W}{I_x(x,y) * I_y(x,y)} \\ \sum_{(x,y) \in W}{I_x(x,y)*I_y(x,y)} & \sum_{(x,y) \in W}{I_y(x,y)^2}\end{bmatrix}\]
+    </p>
+    <p>
+        \[b=\begin{bmatrix}\sum_{(x,y) \in W}{I_x(x,y) * I_t(x,y)} \\ \sum_{(x,y) \in W}{I_y(x,y) * I_t(x,y)}\end{bmatrix}\]
+    </p>
+    <p>
+        This matrix form is solved with the least square method. To do that, we follow the following equation :
+    </p>
+    <p>
+        \[\vec{v}=(H^T*H)^{-1}*H^T*b\]
+    </p>
+    <p>
+        where \(H^T\) is the \(H\) matrix transposed.
+    </p>
+    <p>
+        But before applying the least square method, I check the eigen values of \(H\) : \(\lambda_1\) and \(\lambda_2\). If they are both near 0, we are in an uniform area (there is no movement), so I set \(\vec{v}\) to a 0 vector. If only one of them is near 0, the movement is orthogonal to the image gradient, in this case too I set \(\vec{v}\) to 0.
+    </p>
+    <p>
+        Drawing the optical flow for each pixel using \(\vec{v}\) coordinates to process a color was a bit difficult to me to see if it was correct or not. To improve the preview of the optical flow, I generate a new image where the original frame is divided in a grid of \(10*10\) pixels. The optical flow in each cell is averaged. Then I draw a line that shows this average. The color of the line represents the length of the vector averaged : blue means small and red means big.
+    </p>
+    
+    <div class="imagegrid">
+        <figure class="imagegrid-item">
+            <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/audiovisualproject/OpticalFlow.jpeg" alt="OpticalFlow" >
+            <figcaption>Optical flow per pixel</figcaption>
+        </figure>
+        <figure class="imagegrid-item">
+            <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/audiovisualproject/Shapes25_flow.jpeg" alt="Shapes25_flow" >
+            <figcaption>Optical flow averaged</figcaption>
+        </figure>
+    </div>
+
+    <h2>Object Detection</h2>
+    <p>
+        The next step of the project was to detect objects and follow them through the video.To do that I use the previously calculated optical flow. Now that we have a movement vector for every pixel and for every frame, I create an image that will hold the length of each movement vector at the pixel location as grey level.
+    </p>
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/audiovisualproject/LengthMap.jpeg" alt="LengthMap">
+    
+    <p>
+        With the length map, I try to detect object by starting at the pixel holding the biggest value. Then I look up around it if there are interesting other pixels (value bigger than a specified value).
+    </p>
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/audiovisualproject/Detection1.png" alt="Detection1">
+    
+    <p>
+        And with these new interesting pixel, I start again : I look up around them for other interesting pixels, with care to not process already visited pixels.
+    </p>
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/audiovisualproject/Detection2.png" alt="Detection2">
+    
+    <p>
+        Once there is no more interesting pixel, I build an Axis-Aligned Bounding Box (AABB) that include all the interesting visited pixels.
+    </p>
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/audiovisualproject/DetectionAABB.png" alt="DetectionAABB">
+    
+    <p>
+        When a pixel is visited, its value is set to 0. By doing that, I can restart the whole process with the biggest value (which will not be the same as before) in the image and maybe find more objects.
+    </p>
+    <p>        
+        To avoid stopping exploring a shape too soon because we encountered a little gap in the form, I first applied morphological transformations. To do that, I used the <i>morphologyEx</i> function of OpenCV, with at first the Opening operation (MORH_OPEN) to remove the noise and then with the Closing operation (MORH_CLOSE) to remove the little holes and gaps.
+    </p>
+    <p>
+        Unfortunately, if two objects are too close, the exploration consider them as the same objects.
+    </p>
+
+    <div class="imagegrid">
+        <figure class="imagegrid-item">
+            <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/audiovisualproject/CurrentAABB.jpeg" alt="CurrentAABB" >
+            <figcaption>Objects far enough</figcaption>
+        </figure>
+        <figure class="imagegrid-item">
+            <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/audiovisualproject/CurrentAABBTooClose.jpeg" alt="CurrentAABBTooClose" >
+            <figcaption>Objects too close</figcaption>
+        </figure>
+    </div>
+        
+    <h2>Object Tracking</h2>
+    <p>
+        To follow objects, I wanted to use the optical flow to determine the next object position. From the movement vectors inside the AABB of the object in the previous frame, I process the average movement vector of this object. With this averaged movement, I move the AABB.
+    </p>
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/audiovisualproject/IdeaTracking.png" alt="IdeaTracking">
+    
+    <p>
+        But in practice, the length of the averaged vector is too small.
+    </p>
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/audiovisualproject/RealityTracking.png" alt="IdeaTracking">
+    
+    <p>
+        With the hypothesis that movements in the video are small, this idea still work, but may be not very necessary for the next step. In the new AABB (the one moved by the averaged movement), I start a new detection with the maximum value inside this AABB. The new AABB created at the end of the detection is attached to the object we are tracking. If the averaged vector is 0, that means the object doesn't move anymore and we stop tracking it. If this area move again later in the video, it will be considered as a brand new object. Once all objects are tracked, I try to detect new objects in the case that previously static objects in the video start moving. Note that I didn't test it, but the OpenCV version of Lukas & Kanade may produce better movement vectors and make the average vector more useful (the step of rebuilding the AABB may be not necessary anymore).
+    </p>
+    
+
+    <h2>Noise Impact</h2>
+    <p>
+        The noise have an important and negative effect for the tracking. It generates movements in the whole image that correspond to no objects. When the video is very noised, only one object is detected and it occupies the entire frames.With the blur step when processing the video and the morphological transformations, the noise can be a bit reduced and several objects are detected. Nonetheless, even if they don't, they are considered moving during the entire video.
+    </p>
+
+    <div class="imagegrid">
+        <figure class="imagegrid-item">
+            <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/audiovisualproject/SheepNoiseWithoutBlur.jpeg" alt="SheepNoiseWithoutBlur" >
+            <figcaption>Tracking without blur</figcaption>
+        </figure>
+        <figure class="imagegrid-item">
+            <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/audiovisualproject/SheepNoiseWithBlur.jpeg" alt="SheepNoiseWithBlur" >
+            <figcaption>Tracking with blur</figcaption>
+        </figure>
+    </div>
+    
+    
+    <h2>Audio Spatialization</h2>
+    <p>
+        For the audio part of the project, it was recommended to use OpenAL. I just did a little abstraction of the OpenAL API. It is a set of small classes :
+    </p>
+    <ul>
+        <li><i>Sound</i> : load an audio file with the library <i>libsndfile</i>, then create an OpenAL buffer.</li>
+        <li><i>Source</i> : hold an OpenAL source with the possibility to move it and also play it, pause it or stop it from emitting a sound. It is possible to active the loop mode to play continuously a sound (as long as an object is active for instance).</li>
+        <li><i>Scene</i> : initialize the OpenAL environment (device and context) and manage the objects playing the sounds (<i>Sources</i>). It also stores the loaded <i>Sounds</i>.</li>
+    </ul>
+    
+    <p>
+        No matter the aspect ratio or the size of the video, the audio space will always be a square of \(30 * 30\) starting at \((-15,-15)\) with the listener (the mic) placed at \((0,0)\).
+    </p>
+    <p>
+        The position of the objects will be transformed from the image space to the audio space.
+    </p>    
+    <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/audiovisualproject/AudioRoom_Black.png" alt="AudioRoom_Black">
+    
+    <p>
+        Each object can have a sound attached, when the object become active (start moving), the sound is played on a loop as long as the object is moving. When an object stop moving, the sound is stopped.The sound is played through a source with the position of the object (transformed into the audio space) and listened with the listener at \((0,0)\). OpenAL will process the stereo spatialization automatically.
+    </p>
+    
+    <h2>Audio Recording</h2>
+    <p>
+        Once I got the sounds playing well and spatialized, I had to record it into a file. To record sounds that didn't come from a mic, I use <i>OpenAL Soft</i>, a set of extension for OpenAL. It provide the possibility to do a kind of "offline rendering" of the sounds.
+    </p>
+    <p>
+        I play the sounds like usually but after each update of objects position I record the count of samples that correspond to the time of one frame in the video. And then I update again the objects and record the number of samples for one frame, on so on. But I didn't have to wait that the sounds are actually played, since OpenAL Soft extracts directly all data from the OpenAL buffer, it is not necessary to wait.
+    </p>
+    <p>
+        When the audio is recorded for the whole video, I save all the samples into a <i>wav</i> file with the library <i>libsdnfile</i>.
+    </p>
+    
+    <h2>Results</h2>
+    <div class="imagegrid">
+        <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/276432662?h=f41ba9c181" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+        <div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/276518001?h=439a30c4e2" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
+    </div>
+
+
+    <h2>References & Useful Links</h2>
+    
+    <h3>Lukas & Kanade:</h3>
+    <ul>
+        <li><a href="http://www.inf.fu-berlin.de/inst/ag-ki/rojas_home/documents/tutorials/Lucas-Kanade2.pdf">http://www.inf.fu-berlin.de/inst/ag-ki/rojas_home/documents/tutorials/Lucas-Kanade2.pdf</a></li>
+        <li><a href="http://www.cs.cornell.edu/courses/cs664/2005fa/Lectures/lecture18.pdf">http://www.cs.cornell.edu/courses/cs664/2005fa/Lectures/lecture18.pdf</a></li>
+    </ul>
+    
+    
+    <h3>OpenCV:</h3>
+    <ul>
+        <li><a href="https://opencv.org/">https://opencv.org/</a></li>
+        <li><a href="https://docs.opencv.org/trunk/d9/d61/tutorial_py_morphological_ops.html">https://docs.opencv.org/trunk/d9/d61/tutorial_py_morphological_ops.html</a></li>
+    </ul>
+
+    
+    <h3>OpenAL:</h3>
+    <ul>
+        <li><a href="https://www.openal.org/">https://www.openal.org/</a></li>
+        <li><a href="https://github.com/kcat/openal-soft">https://github.com/kcat/openal-soft</a></li>
+        <li><a href="https://gist.github.com/skitaoka/13a0ffa3f6434ca03e87">https://gist.github.com/skitaoka/13a0ffa3f6434ca03e87</a></li>
+    </ul>
+</div>
+
+<button type="button" onclick="goToTop()" id="goToTopButton" title="Go to top" class="material-symbols-rounded">
+    arrow_circle_up
+</button>
+
+
+</body>
+
+</html>
