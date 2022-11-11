@@ -36,26 +36,15 @@ On the technical part, I used only TCP with SFML network module and did the game
 
 I choose to give you the exact same project as the one I gave to my professors, with its qualities and defects, to show what I really did during one week.
 
-<div class="image-modal-grid-row"> 
-    <div class="image-modal-grid-column">
-        {% include image-modal.html id=0 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/towerdefense/MainMenu.PNG" caption="Main Menu" height=256 width=256 %}
+<div class="imagegrid">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/towerdefense/MainMenu.PNG" alt="Main Menu" class="imagegrid-item">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/towerdefense/Towers.PNG" alt="Towers" class="imagegrid-item">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/towerdefense/TwoPlayer.PNG" alt="TwoPlayer" class="imagegrid-item">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/towerdefense/BothShooting.PNG" alt="BothShooting" class="imagegrid-item">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/towerdefense/BombExplosion.PNG" alt="Game Over" class="imagegrid-item">
     </div>
 
-    <div class="image-modal-grid-column">
-        {% include image-modal.html id=1 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/towerdefense/Towers.PNG" caption="Single Player" height=256 width=256 %}
-    </div>
 
-    <div class="image-modal-grid-column">
-        {% include image-modal.html id=2 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/towerdefense/TwoPlayer.PNG" caption="Two Players" height=256 width=256 %}
-    </div>
 
-    <div class="image-modal-grid-column">
-        {% include image-modal.html id=3 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/towerdefense/BothShooting.PNG" caption="Both Players Shooting" height=256 width=256 %}
-    </div>
-
-    <div class="image-modal-grid-column">
-        {% include image-modal.html id=4 image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/towerdefense/BombExplosion.PNG" caption="Bomb Explosion" height=256 width=256 %}
-    </div>
-</div>
 
  {% include image-button.html link="https://www.dropbox.com/s/k7dus54ckhf8xqq/Tower%20Defense.zip?dl=0" image="https://raw.githubusercontent.com/Lilyel/Website/main/assets/towerdefense/Download_Black.png" height=164 width=164 %}

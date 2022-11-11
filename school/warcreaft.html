@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Capriola">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab">
+    <link rel="stylesheet" href="./../styles/classes/title.css">
+    <link rel="stylesheet" href="./../styles/classes/pillnav.css">
+    <link rel="stylesheet" href="./../styles/classes/body.css">
+    <link rel="stylesheet" href="./../styles/classes/content.css">
+    <link rel="stylesheet" href="./../styles/classes/projectlisting.css">
+    <link rel="stylesheet" href="./../styles/classes/imagegrid.css">
+    <link rel="stylesheet" href="./../styles/classes/snowtable.css">
+
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="./../styles/classes/gototop.css">
+    <script src="./../js/goToTop.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/styles/default.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+    <title>Warcreaft</title>  
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Lilyel/Website/main/assets/logos/icon.png">  
+</head>
+
+
+
+<body>
+
+    
+<header>
+    <p class="title">Lilyël</p>
+</header>
+
+<nav>
+    <div class="pill-nav">
+        <a href="./../index.html">Home</a>
+        <a href="#pro">Professional projects</a>
+        <a href="./../perso/index.html">Personal projects</a>
+        <a href="./index.html">School projects</a>
+        <a href="#about">About</a>
+    </div>
+</nav>
+
+<div class="content">
+    <h1>Warcreaft</h1>
+
+    <p>
+        Warcreaft is a Real-Time Strategic game.
+    </p>
+    <p>
+        This was an annual school project during the third year at <a href="http://www.creajeux.fr/">Creajeux</a>. It is an application of almost all Artificial Intelligence lessons that we had.
+    </p>
+    <p>
+        We had to do a <a href="http://fr.wikipedia.org/wiki/Warcraft">Warcraft</a>-like game. That was not an obligation to do a real game, but at least an “AI application”. This was a group project, from two to three people.  I was with a friend, but due to his behavior, I almost achieved everything alone, and even when he worked, I had to double check his job. That was pretty exhausting but during the final presentation with our teacher, this one was very happy with our work and asked me to do again the demonstration a bit later for an external person ( a former student of the school who was here for the day ), so even if I would have wanted to do more, I am still glad it pleased him.
+    </p>
+    <p>
+        One of the rules was to do a “little engine” if we did not use one already. So we used <a href="http://www.sfml-dev.org/">SFML</a>, and did a little framework in dynamical libraries. We worked with Visual Studio 2013 and used C++ language.
+    </p>
+    <p>
+        Another rule was to do a debug tool with multitask.  So we added a window to the game one and put it in another thread. We did a “tab” system with a toggle button to activate or not the tool. Each tab represents a “category”. For example, unit tab shows all statistics of a selected unit and behavior tab shows the last task done by the enemy player.
+    </p>
+    <p>
+        For the AI part, we used <a href="http://en.wikipedia.org/wiki/A*_search_algorithm">Astar</a> algorithm for the pathfinding. We succeeded to integrate HPA (Hierarchical Pathfinding Astar) algorithm but with our big grid the final result was not very beautiful, the path we ended up with was not accurate or convincing enough and we did not have time to improve so we kept our previous use of Astar.
+    </p>
+    <p>
+        We used HFSM (Hierarchical Finite State Machine) to manage application, units and building states.
+    </p>
+    <p>
+        We integrated some <a href="http://en.wikipedia.org/wiki/Reactive_planning#Steering">steering</a> behaviors. Like Separation, path following (with Astar generated path), wandering, obstacle avoidance and arrival. These behaviors were directly in the game, but other behaviors are callable from the debug window (seek, flee, cohesion, lead following, pursuit, evasion, alignment).
+    </p>
+    <p>
+        We also implemented a little <a href="http://en.wikipedia.org/wiki/Behavior_Trees">Behavior</a> Tree for the enemy player with very simple tasks, he builds a building when he has not got one, products units when he got less peasants or soldiers than the player. He sends a scout when he has a soldier and not already a scout sent. When the scout sees the player, he sends all free soldiers at this position.
+    </p>    
+    <p>
+        The game over condition is simple: kill every enemy and building.
+    </p>
+    <p>
+        The graphics are Warcraft sprites, some Age of Empire II sprites and miscellaneous sprites on google, I did the map with <a href="https://www.mapeditor.org/">Tiled</a>, and the menus with Photoshop.
+    </p>
+    
+    <div class="imagegrid">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/warcreaft/MainMenu.png" alt="Main Menu" class="imagegrid-item">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/warcreaft/BuildProd.png" alt="BuildProd" class="imagegrid-item">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/warcreaft/SteeringPathfinding.png" alt="SteeringPathfinding" class="imagegrid-item">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/warcreaft/Battle.png" alt="Battle" class="imagegrid-item">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/warcreaft/GameOver.png" alt="GameOver" class="imagegrid-item">
+    </div>
+    
+    <a href="https://www.dropbox.com/s/tkxdqn03jifm1p6/Warcreaft.zip?dl=0">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/warcreaft/Download.png" alt="Download" width="256px" height="256px">
+    </a>
+</div>
+
+<button type="button" onclick="goToTop()" id="goToTopButton" title="Go to top" class="material-symbols-rounded">
+    arrow_circle_up
+</button>
+
+
+</body>
+
+</html>

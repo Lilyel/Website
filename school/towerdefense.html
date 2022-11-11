@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Capriola">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab">
+    <link rel="stylesheet" href="./../styles/classes/title.css">
+    <link rel="stylesheet" href="./../styles/classes/pillnav.css">
+    <link rel="stylesheet" href="./../styles/classes/body.css">
+    <link rel="stylesheet" href="./../styles/classes/content.css">
+    <link rel="stylesheet" href="./../styles/classes/projectlisting.css">
+    <link rel="stylesheet" href="./../styles/classes/imagegrid.css">
+    <link rel="stylesheet" href="./../styles/classes/snowtable.css">
+
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="./../styles/classes/gototop.css">
+    <script src="./../js/goToTop.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/styles/default.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+    <title>Tower Defense</title>  
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Lilyel/Website/main/assets/logos/icon.png">  
+</head>
+
+
+
+<body>
+
+    
+<header>
+    <p class="title">Lilyël</p>
+</header>
+
+<nav>
+    <div class="pill-nav">
+        <a href="./../index.html">Home</a>
+        <a href="#pro">Professional projects</a>
+        <a href="./../perso/index.html">Personal projects</a>
+        <a href="./index.html">School projects</a>
+        <a href="#about">About</a>
+    </div>
+</nav>
+
+<div class="content">
+    <h1>Tower Defense</h1>
+
+    <p>
+        Tower Defense is my project for the practical part of the final exam at <a href="http://www.creajeux.fr/">Créajeux</a>.
+    </p>
+    <p>
+        The subject was quite simple : Do a multiplayer, cooperative, tower defense.
+    </p>
+    <p>
+        I never did a tower defense before, and the only one I really played is Orc Must Die, which I love. So I decided to draw my inspiration from it but transposed in 2D, with 2 players and infinite enemy waves.
+    </p>
+    <p>
+        We had one week to create it, but Monday and Tuesday morning were lock by theoretical exams. I also worked on it each evening for around 3 hours, I spent a roughly total 45 hours on it.
+    </p>
+    <p>
+        That was my first project with network, I was not very self confident. So I thought that if I hadn't successfully understand and integrate the online features basics in the project Tuesday evening, I would only have done one player. Because I thought it would be better to do a correct solo game instead of a bad online one.
+    </p>
+    <p>
+        So Monday, I did some researches on the <a href="http://www.sfml-dev.org/">SFML</a>'s network module. I did the main menu, composed by a play and quit button, the game level and player controls.
+    </p>
+    <p>
+        Tuesday, I put the network part. I succeeded to make the players move. I also did the tower placement in local.
+    </p>   
+    <p>
+        Wednesday, I did the online tower placement and the two types of monsters. For their AI, I simply did a path-following with some way-points, collision avoidance for environmental collision and separation between them to avoid superposition. After that I handled the online aspect of player bullets.
+    </p>
+    <p>
+        Thursday, I did the towers' bullets' networking, one tower has slow homing projectiles, with seek steering behavior and rapid straight shots for the other one. I also optimized my network, with less packet sending and proper disconnection. I managed to synchronize the joining player, so he wouldn't have an empty map when he arrived. I also did some functionality and graphical upgrades like tower rotation, fade out on bullets to avoid a brutal disappearance. I made a new attack for the player, the bomb.
+    </p>
+    <p>
+        The evening, I tried my game with internet with a friend and it worked great ! I was happy because all the network I developed was only in LAN, so when I succeeded to make it work in WAN, it was pretty satisfying.
+    </p>
+    <p>
+        Friday, it was the last day, we had to hand in our work. So I decided if I had to change the project code that would be only for critical matters. With that in mind, I just resolved a crash which occurred on the client end when the host was leaving the game. Otherwise I just did graphical upgrades for the menus and in game to make the application a bit more beautiful.
+    </p>
+    <p>
+        And the project was finished !
+    </p>
+    <p>
+        To sum up the game, there are two players and they have to survive to a maximum number of waves. They can place homing or rapid fire towers with a cost of 150 each.
+    </p>
+    <p>
+        Players can fire freely as long as they want and they can place a bomb for 300 which will explode one second after it has been fused. When the players kill a monster they earn 10, when it is a tower which kills an enemy, they earn 5. The money is joint, so they have to be cooperative to correctly use it.
+    </p>
+    <p>
+        The two types of monsters are not very different, the first has less health but moves faster, the second has more health but moves slower.
+    </p>
+    <p>
+        On the technical part, I used only TCP with SFML network module and did the game in C++. The player who creates the game hosts it and the other player just has to click on play to join him, the bullets are not continuously updated via the network, there is just their creation that is replicated, the monsters are synchronized each 0.5 second, and the player and game infos are sent through the network only when there is a modification on them. There are some details which I didn't think about right away, like the simultaneous tower placement with network, or what happens if a third player joins. Anyway, for a first experience with online gameplay, I am really happy and I also had a really good mark and great feedbacks, so that's awesome !
+    </p>
+    <p>
+        I choose to give you the exact same project as the one I gave to my professors, with its qualities and defects, to show what I really did during one week.
+    </p>
+    <div class="imagegrid">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/towerdefense/MainMenu.PNG" alt="Main Menu" class="imagegrid-item">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/towerdefense/Towers.PNG" alt="Towers" class="imagegrid-item">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/towerdefense/TwoPlayer.PNG" alt="TwoPlayer" class="imagegrid-item">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/towerdefense/BothShooting.PNG" alt="BothShooting" class="imagegrid-item">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/towerdefense/BombExplosion.PNG" alt="Game Over" class="imagegrid-item">
+    </div>
+    
+    <a href="https://www.dropbox.com/s/k7dus54ckhf8xqq/Tower%20Defense.zip?dl=0">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/towerdefense/Download_Black.png" alt="Download" width="164px" height="164px">
+    </a>
+</div>
+
+<button type="button" onclick="goToTop()" id="goToTopButton" title="Go to top" class="material-symbols-rounded">
+    arrow_circle_up
+</button>
+
+
+</body>
+
+</html>

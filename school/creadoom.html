@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Capriola">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab">
+    <link rel="stylesheet" href="./../styles/classes/title.css">
+    <link rel="stylesheet" href="./../styles/classes/pillnav.css">
+    <link rel="stylesheet" href="./../styles/classes/body.css">
+    <link rel="stylesheet" href="./../styles/classes/content.css">
+    <link rel="stylesheet" href="./../styles/classes/projectlisting.css">
+    <link rel="stylesheet" href="./../styles/classes/imagegrid.css">
+    <link rel="stylesheet" href="./../styles/classes/snowtable.css">
+
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="./../styles/classes/gototop.css">
+    <script src="./../js/goToTop.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/styles/default.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+    <title>Creadoom</title>  
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Lilyel/Website/main/assets/logos/icon.png">  
+</head>
+
+
+
+<body>
+
+    
+<header>
+    <p class="title">Lilyël</p>
+</header>
+
+<nav>
+    <div class="pill-nav">
+        <a href="./../index.html">Home</a>
+        <a href="#pro">Professional projects</a>
+        <a href="./../perso/index.html">Personal projects</a>
+        <a href="./index.html">School projects</a>
+        <a href="#about">About</a>
+    </div>
+</nav>
+
+<div class="content">
+    <h1>Creadoom</h1>
+
+    <p>
+        CreaDoom is a very simple 3D First person shooter.
+    </p>
+    <p>
+        This was a February 2014 school project( during second year at <a href="https://www.creajeux.fr/">Creajeux</a> ), I had two weeks to do it. The subject was quite simple, we had to create a similar game as <a href="https://en.wikipedia.org/wiki/Doom_(1993_video_game)">Doom</a>.
+    </p>
+    <p>
+        It is the direct application of different classes we had about DirectX. That was my first project with this library. I tried my best but it was not very easy because that was my first 3D project too. I pretty much like DirectX even if I am not very familiar with all its features. I enjoy this library because it is quite Low Level and I like being at this step of programming. I admit it is not easy without a scene editor but it is very interesting to do all we need in the scene ourselves and not just drag and drop some contents and wish it will do exactly what we want.
+    </p>
+    <p>
+        So, to do this I used DirectX 9 ( June 2010 SDK ) with Visual Studio 2012 in C++, in which I used Lights, Textures, Matrix, Vectors, Materials, Mesh and some other features.
+    </p>
+    <p>
+        The point I liked in this project was the physics we had to do ourselves. Even if I am not very good in math, I really enjoy physics. In classes we learnt to do different types of collision and I tried to apply them in this game successfully. It might not be a big deal but I managed to make the grenades bounce against walls by myself.
+    </p>
+    <p>
+        The principle of the game is simple, progress in the level and kill the final boss.
+    </p>
+    <p>
+        The player has two types of weapons : the gun or grenades. Munitions are not unlimited so save them for the final boss.
+    </p>
+
+    
+    <div class="imagegrid">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/creadoom/Menu.PNG" alt="Menu" class="imagegrid-item">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/creadoom/Start.PNG" alt="Start" class="imagegrid-item">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/creadoom/PowerUp.PNG" alt="PowerUp" class="imagegrid-item">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/creadoom/Enemies.PNG" alt="Enemies" class="imagegrid-item">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/creadoom/BossHE.PNG" alt="BossHE" class="imagegrid-item">
+    </div>
+
+     <a href="https://www.dropbox.com/s/6frt5h994ubx8xr/CreaDoom.zip?dl=0">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/creadoom/Composition-1.gif" alt="Download" width="164px" height="164px">
+    </a>
+</div>
+
+<button type="button" onclick="goToTop()" id="goToTopButton" title="Go to top" class="material-symbols-rounded">
+    arrow_circle_up
+</button>
+
+
+</body>
+
+</html>
