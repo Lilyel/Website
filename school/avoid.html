@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Capriola">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab">
+    <link rel="stylesheet" href="./../styles/classes/title.css">
+    <link rel="stylesheet" href="./../styles/classes/pillnav.css">
+    <link rel="stylesheet" href="./../styles/classes/body.css">
+    <link rel="stylesheet" href="./../styles/classes/content.css">
+    <link rel="stylesheet" href="./../styles/classes/projectlisting.css">
+    <link rel="stylesheet" href="./../styles/classes/imagegrid.css">
+    <link rel="stylesheet" href="./../styles/classes/snowtable.css">
+
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="./../styles/classes/gototop.css">
+    <script src="./../js/goToTop.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/styles/default.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+    <title>A-Void</title>  
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Lilyel/Website/main/assets/logos/icon.png">  
+</head>
+
+
+
+<body>
+
+    
+<header>
+    <p class="title">Lilyël</p>
+</header>
+
+<nav>
+    <div class="pill-nav">
+        <a href="./../index.html">Home</a>
+        <a href="#pro">Professional projects</a>
+        <a href="./../perso/index.html">Personal projects</a>
+        <a href="./index.html">School projects</a>
+        <a href="#about">About</a>
+    </div>
+</nav>
+
+<div class="content">
+    <h1>A-Void</h1>
+
+    <p>
+        A-Void was our final project of our third and last year at <a href="http://www.creajeux.fr/">Créajeux]</a>.
+    </p>
+    <p>
+        It is a local multiplayer 3D arcade game in space.  The story behind it is simple, it is inspired from Death Race (2008). There is an arena and some participants fight against each others in a TV show to become famous.
+    </p>
+    <p>
+        There are three ships, a blue, a green and a red one. This is only aesthetic.
+    </p>
+    <p>
+        The basic weapon is the laser blaster. It is the only weapon which does not have any ammunition, it has a heat system, when player is firing for too long, the blaster overheats and the player can not fire anymore during awhile.
+    </p>
+    <p>
+        There are three other weapons to pick up in the arena. The gatling gun, which fires rapidly with a little spray effect which implies low accuracy at long range.
+    </p>
+    <p>
+        The tesla gun, with a loading system, the more the player loads, the more the weapon will be deadly, it is very accurate but does not have a long range.
+    </p>
+    <p>
+        Finally there is the plasma canon, it has a homing system linked to a locking system on the player's HUD.
+    </p>
+    <p>
+        The player has also to keep an eye on his oxygen level. It decreases over time and can be refilled with tanks in the map.
+    </p>
+    <p>
+        The only available mode is Free For All, each player must kill as many opponent as possible.
+    </p>
+    <p>
+        The player can switch from the first person view to the third person view at any moment.
+    </p>
+    <p>
+        That was the first real project on <a href="www.unrealengine.com">Unreal Engine 4</a>. We used 4.7.3 update. I was very happy to use Unreal because even if there are instabilities and lack of functionalities, I adore this engine.
+    </p>
+
+    <p>
+        I am quite happy with this project, not very much on the finality of the game but more on what I did and learnt during its development.
+    </p>
+    <p>
+        At first I did a lot of blueprint, but gradually I succeeded to convert some of my blueprint functions in C++.
+    </p>
+    <p>
+        Due to the incompatibility of our Tortoise SVN version and the one required by Unreal, we could not link them together. So to work with the CCC group ( Character, Controller, Camera ) and deal with this little setback, we had to make modules like Player Module, HUD and Sound Module.
+    </p>
+    <p>
+        So, I worked with the player module group. At the beginning I created the module and helped to do the picking up system of objects.
+    </p>
+    <p>
+        After that, I had to do the projectiles. I worked in close collaboration with the network group to make them work in multiplayer.
+    </p>
+    <p>
+        I managed all the projectiles, their aiming system and their interaction with the world, like impacts or the collision with other players. I collaborated with the FX graph group for impact and projectiles effects.
+    </p>
+    <p>
+        Also I helped on the global debugging of the game and assisted people who needed it when I could.
+    </p>
+    
+    
+    <div class="video-container">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/2KdxVD7R8Ws" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    
+    <a href="https://www.creajeux.fr/project/a-void/">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/avoid/ProjectPage.png" alt="AvoidProjectPage">
+    </a>
+</div>
+
+<button type="button" onclick="goToTop()" id="goToTopButton" title="Go to top" class="material-symbols-rounded">
+    arrow_circle_up
+</button>
+
+
+</body>
+
+</html>

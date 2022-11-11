@@ -47,6 +47,20 @@
     height: auto;
 }
 
+.video-container {
+    overflow: hidden;
+    padding-bottom: 56.25%;
+    position: relative;
+    height: 0;
+}
+.video-container iframe {
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
 @media screen and (max-width: 600px) {
     .content {
         width: 90%;
