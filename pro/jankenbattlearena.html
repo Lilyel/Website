@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Capriola">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab">
+    <link rel="stylesheet" href="./../styles/classes/title.css">
+    <link rel="stylesheet" href="./../styles/classes/pillnav.css">
+    <link rel="stylesheet" href="./../styles/classes/body.css">
+    <link rel="stylesheet" href="./../styles/classes/content.css">
+    <link rel="stylesheet" href="./../styles/classes/projectlisting.css">
+    <link rel="stylesheet" href="./../styles/classes/imagegrid.css">
+    <link rel="stylesheet" href="./../styles/classes/snowtable.css">
+
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="./../styles/classes/gototop.css">
+    <script src="./../js/goToTop.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/styles/default.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.6.0/build/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+    <title>JanKen Battle Arena</title>  
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Lilyel/Website/main/assets/logos/icon.png">  
+</head>
+
+
+
+<body>
+
+    
+<header>
+    <p class="title">Lilyël</p>
+</header>
+
+<nav>
+    <div class="pill-nav">
+        <a href="./../index.html">Home</a>
+        <a href="./index.html">Professional projects</a>
+        <a href="./../perso/index.html">Personal projects</a>
+        <a href="./../school/index.html">School projects</a>
+        <a href="./../resume/index.html">About</a>
+    </div>
+</nav>
+
+<div class="content">
+    <h1>JanKen Battle Arena</h1>
+    <p>
+        JanKen Battle Arena is a fighting game mixed with “Rock Paper Scissors”, that is available on <a href="https://play.google.com/store/apps/details?id=com.bakcorpstudio.jba&hl=en">Android</a> and <a href="https://apps.apple.com/us/app/jan-ken-battle-arena/id1160328096">iOS</a>.
+    </p>
+    <p>
+        It is developed by Bakcorp Studio, a small video game studio based in Montpellier (France). When I joined the studio, there were the boss a developer, another gameplay developer, an illustrator and two 2D animators, then finally, a community manager who also helped the boss to create sounds and musics.
+    </p>
+    <p>
+        I joined them on early November 2015 within the context of my internship. Then I was hired for two months to help to ship the game and then I have chosen to continue my studies in an university.
+    </p>
+    <p>
+        The game is developed using Unity3D (C#) and Visual Studio 2012. We used PlasticSCM as source control.
+    </p>
+
+    <h2>Game Summary</h2>
+    <p>
+        In the game, the player can possess several spirits, he can equip them with a weapon and a shield, improve their spells or unlock new ones. Then, the player can fight another player or an artificial intelligence.
+    </p>
+
+    <figure>
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/SpiritDetail.png" alt="SpiritDetail" >
+        <figcaption>Example of spirit with its items and spells.</figcaption>
+    </figure>
+
+    <p>
+        During the fight, there are, at first, three symbols : rock, paper and scissors. The player has to choose one, then the opponent's symbol is revealed. If the player wins, the spirit attacks the enemy, if he loses his spirit is attacked by the adversary's one. Spells can be chosen just after the symbol if the spirit has enough Doki (energy).
+    </p>
+    <div class="imagegrid">
+        <figure class="imagegrid-item">
+            <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/SymbolButtons.png" alt="SymbolButtons" >
+            <figcaption>Symbol selection. The colored outline of the buttons represents the remaining time to choose.</figcaption>
+        </figure>
+        <figure class="imagegrid-item">
+            <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/AttackDefenseButtons.png" alt="AttackDefenseButtons" >
+            <figcaption>Opponent's symbol revelation.</figcaption>
+        </figure>
+    </div>
+    
+    <p>
+        In case of a draw, the winner will be determined thanks to a mini game. In those games, players have to trace circles, tap the screen or slice a symbol as fast as possible. The fastest player will win the round.
+    </p>
+
+
+    <div class="imagegrid">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/RockDraw.png" alt="RockDraw" class="imagegrid-item">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/ScissorsDraw.png" alt="ScissorsDraw" class="imagegrid-item">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/PaperDraw.png" alt="PaperDraw" class="imagegrid-item">
+    </div>
+    
+    <p>
+        At the end of the fight, the players win some gold (more for the winner). Gold is used in the gift machine to get new stuff or some components to improve spells or purchase new spirits.
+    </p>
+
+    <div class="imagegrid">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/P4Minou.PNG" alt="P4Minou" class="imagegrid-item">
+        <img src="https://raw.githubusercontent.com/Lilyel/Website/main/assets/jankenbattlearena/GiftMachine.png" alt="GiftMachine" class="imagegrid-item">
+    </div>
+
+    <h2>My Tasks</h2>
+
+    <h3>User Interface</h3>
+    <ul>
+        <li>Upgrade all existing menus with new artworks and update functionalities. These menus were the one where the player sets up the spirits and the one where the player can equip a weapon and a shield on a spirit. I also worked on the spirits selection menu and a bit on the rewards screen after the fight.</li>
+        <li>Implementation of new menus : Settings, shop, player profile screen and the menus just before starting the search of an opponent.</li>
+        <li>Redesign of menus architecture to keep them in a single scene to reduce loading times between each menus.</li>
+        <li>Integration of the artworks of tutorials bubbles and dialogues.</li>
+        <li>Implementation of the HUD for the draw mini games.</li>
+        <li>Improvement of symbols and spells buttons animations and appearance.</li>
+        <li>Implementation of the languages module to translate every texts of the menus.</li>
+    </ul>
+
+    <h3>Gameplay</h3>
+    <ul>
+        <li>Implementation of tutorials and dialogues architectures.</li>
+        <li>Implementation of the draw mini games.</li>
+        <li>Integration of the Google Play Services for real time multiplayer. Migrate the game from the old multiplayer system to Google Play.</li>
+        <li>In-App purchases integration.</li>
+        <li>iOS porting.​</li>
+    </ul>
+
+    <h3>Tools (Windows Presentation Foundation, C#)</h3>
+    <ul>
+        <li>Development of an application for designers to easily add, remove or modify translations in languages supported by Unity. The tool writes translations in an XML, which will be loaded in the game.</li>
+        <li>Creation of an application for the developers to parse an Unity folder and change the images compression settings in Unity meta files.</li>
+        <li>Creation of an application for developers and artists to parse a folder and resize pictures. Possibility to round up or down or to the nearest power of 2 the picture resolution or even set to a custom size. Ability to choose the origin of the resizing and if the resize will crop or scale the picture.</li>
+    </ul>
+    
+    <div class="video-container">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/btadhEyXHpA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+
+</div>
+
+<button type="button" onclick="goToTop()" id="goToTopButton" title="Go to top" class="material-symbols-rounded">
+    arrow_circle_up
+</button>
+
+
+</body>
+
+</html>
