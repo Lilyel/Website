@@ -1,0 +1,7 @@
+hr.resume {
+    border: 0;
+    background-image: linear-gradient(to right, rgba(220, 220, 220, 0), rgba(220, 220, 220, 0.75), rgba(220, 220, 220, 0));
+    height: 1px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
