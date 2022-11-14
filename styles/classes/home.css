@@ -1,0 +1,21 @@
+.home {
+    width: 66%;
+    margin: auto;
+    background-color: transparent;
+    border-radius: 7px;
+    padding: 25px;
+  
+    font-family: 'Roboto Slab', sans-serif;
+    font-size: 64px;
+    font-weight: 700;
+    color: white;
+}
+
+@media screen and (max-width: 600px) {
+    .home {
+        width: 90%;
+        padding: 10px;
+
+        font-size: 32px;
+    }
+}
