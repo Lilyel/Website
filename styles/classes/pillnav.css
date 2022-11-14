@@ -30,3 +30,9 @@
   background-color: #ffffff3d;
   color: white;
 }
+
+.pill-nav img {
+  height: 20px;
+  width: auto;
+  color: white;
+}
